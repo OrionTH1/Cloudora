@@ -29,6 +29,9 @@ importers:
       next:
         specifier: 15.1.7
         version: 15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      node-appwrite:
+        specifier: ^15.0.0
+        version: 15.0.0
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -1325,6 +1328,12 @@ packages:
         optional: true
       sass:
         optional: true
+
+  node-appwrite@15.0.0:
+    resolution: {integrity: sha512-ysyFGKnT/vSJHNSfikg/RaOXghv8rdHNUznVMENm7AS7yf9h/vsF8fyDynt+Uplud0hIWCQdenqZdpxEjGe46g==}
+
+  node-fetch-native-with-agent@1.7.2:
+    resolution: {integrity: sha512-5MaOOCuJEvcckoz7/tjdx1M6OusOY6Xc5f459IaruGStWnKzlI1qpNgaAwmn4LmFYcsSlj+jBMk84wmmRxfk5g==}
 
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -3200,6 +3209,12 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+
+  node-appwrite@15.0.0:
+    dependencies:
+      node-fetch-native-with-agent: 1.7.2
+
+  node-fetch-native-with-agent@1.7.2: {}
 
   normalize-path@3.0.0: {}
 

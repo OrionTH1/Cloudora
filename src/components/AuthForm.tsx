@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { createAccount } from "@/lib/actions/user.actions";
 type FormType = "sign-in" | "sign-up";
 
 const authFormSchema = (formType: FormType) => {
@@ -30,7 +31,9 @@ const authFormSchema = (formType: FormType) => {
 };
 
 function AuthForm({ type }: { type: FormType }) {
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,11 +44,25 @@ function AuthForm({ type }: { type: FormType }) {
     },
   });
   const {
+    setError,
+    clearErrors,
     formState: { errors: errorMessage },
   } = form;
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    clearErrors();
+
+    try {
+      const user = await createAccount(values.email, values.email);
+
+      setAccountId(user.accountId);
+    } catch (error) {
+      setError("root", { message: "Something went wrong, please try again." });
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
