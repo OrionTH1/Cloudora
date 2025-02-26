@@ -30,7 +30,7 @@ const authFormSchema = (formType: FormType) => {
 };
 
 function AuthForm({ type }: { type: FormType }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,8 +41,6 @@ function AuthForm({ type }: { type: FormType }) {
     },
   });
   const {
-    setError,
-    clearErrors,
     formState: { errors: errorMessage },
   } = form;
 
