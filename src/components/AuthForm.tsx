@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { createAccount } from "@/lib/actions/user.actions";
+import OTPModal from "./OPTModal";
 type FormType = "sign-in" | "sign-up";
 
 const authFormSchema = (formType: FormType) => {
@@ -32,7 +33,7 @@ const authFormSchema = (formType: FormType) => {
 
 function AuthForm({ type }: { type: FormType }) {
   const [isLoading, setIsLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [accountId, setAccountId] = useState<string | null>(null);
 
   const formSchema = authFormSchema(type);
@@ -147,6 +148,9 @@ function AuthForm({ type }: { type: FormType }) {
           </div>
         </form>
       </Form>
+      {accountId && (
+        <OTPModal email={form.getValues("email")} accountId={accountId} />
+      )}
     </>
   );
 }
