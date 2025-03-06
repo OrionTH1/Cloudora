@@ -143,7 +143,7 @@ function AuthForm({ type }: { type: FormType }) {
               href={type === "sign-in" ? "/sign-up" : "/sign-in"}
               className="ml-1 font-medium text-brand"
             >
-              {type === "sign-in" ? "Sign Up" : "Sign In"}{" "}
+              {type === "sign-in" ? "Sign Up" : "Sign In"}
             </Link>
           </div>
         </form>
