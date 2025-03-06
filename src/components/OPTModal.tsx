@@ -40,7 +40,14 @@ function OTPModal({ accountId, email }: { accountId: string; email: string }) {
   };
 
   const handleResendOtp = async () => {
-    await sendEmailOTP(email);
+    setisLoading(true);
+    try {
+      await sendEmailOTP(email);
+    } catch (error) {
+      console.error("Failed to resend OTP", error);
+    } finally {
+      setisLoading(false);
+    }
   };
 
   return (
