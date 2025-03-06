@@ -4,6 +4,7 @@ import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { DATABASE_ID, USERS_COLLECTION_ID } from "../appwrite/config";
 import { cookies } from "next/headers";
+import { avatarPlacerHolderUrl } from "@/constants";
 
 const getUserByEmail = async (email: string) => {
   const { database } = await createAdminClient();
@@ -52,8 +53,7 @@ export const createAccount = async (fullName: string, email: string) => {
       {
         fullName,
         email,
-        avatar:
-          "https://storage.needpix.com/rsynced_images/avatar-1577909_1280.png",
+        avatar: avatarPlacerHolderUrl,
         accountId,
       }
     );
