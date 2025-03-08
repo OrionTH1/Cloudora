@@ -5,6 +5,7 @@ import { createAdminClient, createSessionClient } from "../appwrite";
 import { DATABASE_ID, USERS_COLLECTION_ID } from "../appwrite/config";
 import { cookies } from "next/headers";
 import { avatarPlacerHolderUrl } from "@/constants";
+import { redirect } from "next/navigation";
 
 const getUserByEmail = async (email: string) => {
   const { database } = await createAdminClient();
@@ -93,4 +94,16 @@ export const getCurrentUser = async () => {
   if (user.total <= 0) return null;
 
   return user.documents[0];
+};
+
+export const signOutUser = async () => {
+  const { account } = await createSessionClient();
+  try {
+    await account.deleteSession("current");
+    (await cookies()).delete("appwrite-session");
+  } catch (error) {
+    handleError(error, "Failed to sign out user");
+  } finally {
+    redirect("/sign-in");
+  }
 };
