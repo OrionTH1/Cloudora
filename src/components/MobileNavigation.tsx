@@ -24,7 +24,7 @@ interface MobileNavigationProps {
 }
 
 function MobileNavigation({ avatar, email, fullName }: MobileNavigationProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
     <header className="mobile-header">
