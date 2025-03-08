@@ -10,7 +10,11 @@ async function Layout({ children }: { children: React.ReactNode }) {
   if (!currentUser) return redirect("/sign-in");
   return (
     <main className="flex h-screen">
-      <Sidebar {...currentUser} />
+      <Sidebar
+        avatar={currentUser.avatar}
+        email={currentUser.email}
+        fullName={currentUser.fullName}
+      />
       <section className="flex h-full flex-1 flex-col">
         <MobileNavigation />
         <Header />
