@@ -16,6 +16,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import FileUploader from "./FileUploader";
 import { Button } from "./ui/button";
+import { signOutUser } from "@/lib/actions/user.actions";
 
 interface MobileNavigationProps {
   fullName: string;
@@ -24,7 +25,7 @@ interface MobileNavigationProps {
 }
 
 function MobileNavigation({ avatar, email, fullName }: MobileNavigationProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
     <header className="mobile-header">
@@ -96,7 +97,7 @@ function MobileNavigation({ avatar, email, fullName }: MobileNavigationProps) {
               <Button
                 type="submit"
                 className="mobile-sign-out-button"
-                onClick={() => {}}
+                onClick={async () => await signOutUser()}
               >
                 <Image
                   src="/assets/icons/logout.svg"
