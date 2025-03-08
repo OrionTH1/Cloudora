@@ -1,9 +1,10 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { DATABASE_ID, USERS_COLLECTION_ID } from "../appwrite/config";
 import { cookies } from "next/headers";
+import { avatarPlacerHolderUrl } from "@/constants";
 
 const getUserByEmail = async (email: string) => {
   const { database } = await createAdminClient();
@@ -52,8 +53,7 @@ export const createAccount = async (fullName: string, email: string) => {
       {
         fullName,
         email,
-        avatar:
-          "https://storage.needpix.com/rsynced_images/avatar-1577909_1280.png",
+        avatar: avatarPlacerHolderUrl,
         accountId,
       }
     );
@@ -67,7 +67,6 @@ export const verifySecret = async (accountId: string, password: string) => {
     const { account } = await createAdminClient();
 
     const session = await account.createSession(accountId, password);
-    console.log(session);
     (await cookies()).set("appwrite-session", session.secret, {
       path: "/",
       httpOnly: true,
@@ -79,4 +78,19 @@ export const verifySecret = async (accountId: string, password: string) => {
   } catch (error) {
     handleError(error, "Failed to verify secret OTP");
   }
+};
+
+export const getCurrentUser = async () => {
+  const { account, database } = await createSessionClient();
+  const result = await account.get();
+
+  const user = await database.listDocuments(
+    DATABASE_ID!,
+    USERS_COLLECTION_ID!,
+    [Query.equal("accountId", result.$id)]
+  );
+
+  if (user.total <= 0) return null;
+
+  return user.documents[0];
 };
