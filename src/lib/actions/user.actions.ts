@@ -6,6 +6,7 @@ import { DATABASE_ID, USERS_COLLECTION_ID } from "../appwrite/config";
 import { cookies } from "next/headers";
 import { avatarPlacerHolderUrl } from "@/constants";
 import { redirect } from "next/navigation";
+import { handleError } from "../utils";
 
 const getUserByEmail = async (email: string) => {
   const { database } = await createAdminClient();
@@ -17,12 +18,6 @@ const getUserByEmail = async (email: string) => {
   );
 
   return users.total > 0 ? users.documents[0] : null;
-};
-
-const handleError = (error: unknown, message: string) => {
-  console.error(error, message);
-
-  throw error;
 };
 
 export const sendEmailOTP = async (email: string) => {
