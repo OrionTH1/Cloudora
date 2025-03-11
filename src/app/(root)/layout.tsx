@@ -21,8 +21,10 @@ async function Layout({ children }: { children: React.ReactNode }) {
           avatar={currentUser.avatar}
           email={currentUser.email}
           fullName={currentUser.fullName}
+          accountId={currentUser.accountId}
+          userId={currentUser.$id}
         />
-        <Header />
+        <Header accountId={currentUser.accountId} userId={currentUser.$id} />
         <div className="main-content">{children}</div>
       </section>
 

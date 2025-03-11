@@ -22,9 +22,17 @@ interface MobileNavigationProps {
   fullName: string;
   email: string;
   avatar: string;
+  accountId: string;
+  userId: string;
 }
 
-function MobileNavigation({ avatar, email, fullName }: MobileNavigationProps) {
+function MobileNavigation({
+  avatar,
+  email,
+  fullName,
+  accountId,
+  userId,
+}: MobileNavigationProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
@@ -92,7 +100,7 @@ function MobileNavigation({ avatar, email, fullName }: MobileNavigationProps) {
 
             <Separator className="my-5 bg-light-200/20" />
             <div className="flex flex-col justify-between gap-5">
-              <FileUploader />
+              <FileUploader accountId={accountId} ownerId={userId} />
 
               <Button
                 type="submit"
