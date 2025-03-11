@@ -70,7 +70,7 @@ importers:
         version: 3.24.2
     devDependencies:
       '@eslint/eslintrc':
-        specifier: ^3
+        specifier: ^3.3.0
         version: 3.3.0
       '@next/eslint-plugin-next':
         specifier: ^15.1.7
