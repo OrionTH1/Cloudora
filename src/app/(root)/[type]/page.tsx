@@ -1,3 +1,4 @@
+import FileCard from "@/components/FileCard";
 import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.actions";
 import { Models } from "node-appwrite";
@@ -26,7 +27,7 @@ async function Page({ params }: SearchParamProps) {
         <section>
           {files.documents.map((file: Models.Document) => (
             <h1 key={file.$id} className="h1">
-              {file.name}
+              <FileCard key={file.$id} file={file} />
             </h1>
           ))}
         </section>
