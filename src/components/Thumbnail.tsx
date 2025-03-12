@@ -5,9 +5,16 @@ interface ThumbnailProps {
   type: string;
   extension: string;
   url?: string;
+  imageClassName?: string;
   className?: string;
 }
-function Thumbnail({ extension, type, url = "", className }: ThumbnailProps) {
+function Thumbnail({
+  extension,
+  type,
+  url = "",
+  className,
+  imageClassName,
+}: ThumbnailProps) {
   const isImage = type === "image" && extension !== "svg";
   return (
     <figure className={cn("thumbnail", className)}>
@@ -18,7 +25,7 @@ function Thumbnail({ extension, type, url = "", className }: ThumbnailProps) {
         height={100}
         className={cn(
           "size-8 object-contain",
-          className,
+          imageClassName,
           isImage && "thumbnail-image"
         )}
       />
