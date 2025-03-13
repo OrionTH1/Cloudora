@@ -3,6 +3,7 @@ import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
 import { convertFileSize } from "@/lib/utils";
 import FormattedDataTime from "./FormattedDataTime";
+import FileActionDropdown from "./FileActionDropdown";
 
 interface FileCardProps {
   key: string;
@@ -20,7 +21,7 @@ function FileCard({ file, key }: FileCardProps) {
           imageClassName="!size-11"
         />
         <div className="flex flex-col items-end justify-between">
-          ActionsDropdown ...
+          <FileActionDropdown file={file} />
           <p className="body-1 "> {convertFileSize(file.size)}</p>
         </div>
       </div>
