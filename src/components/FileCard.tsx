@@ -3,14 +3,14 @@ import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
 import { convertFileSize } from "@/lib/utils";
 import FormattedDataTime from "./FormattedDataTime";
+import FileActionDropdown from "./FileActionDropdown";
 
 interface FileCardProps {
-  key: string;
   file: Models.Document;
 }
-function FileCard({ file, key }: FileCardProps) {
+function FileCard({ file }: FileCardProps) {
   return (
-    <Link key={key} href={file.url} target="_blank" className="file-card">
+    <Link href={file.url} target="_blank" className="file-card">
       <div className="flex justify-between">
         <Thumbnail
           type={file.type}
@@ -20,7 +20,7 @@ function FileCard({ file, key }: FileCardProps) {
           imageClassName="!size-11"
         />
         <div className="flex flex-col items-end justify-between">
-          ActionsDropdown ...
+          <FileActionDropdown file={file} />
           <p className="body-1 "> {convertFileSize(file.size)}</p>
         </div>
       </div>

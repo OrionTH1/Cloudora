@@ -6,7 +6,6 @@ import { Models } from "node-appwrite";
 async function Page({ params }: SearchParamProps) {
   const type = ((await params)?.type as string) || "";
   const files = await getFiles();
-  console.log(files);
   return (
     <div className="page-container">
       <section className="w-full">
@@ -24,13 +23,13 @@ async function Page({ params }: SearchParamProps) {
       </section>
 
       {files?.total ? (
-        <section>
+        <ul className="dashboard-summary-list">
           {files.documents.map((file: Models.Document) => (
-            <h1 key={file.$id} className="h1">
-              <FileCard key={file.$id} file={file} />
-            </h1>
+            <li key={file.$id}>
+              <FileCard file={file} />
+            </li>
           ))}
-        </section>
+        </ul>
       ) : (
         <p className="empty-list">No files uploaded</p>
       )}

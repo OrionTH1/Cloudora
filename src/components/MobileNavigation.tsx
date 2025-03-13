@@ -38,7 +38,7 @@ function MobileNavigation({
   return (
     <header className="mobile-header">
       <Image
-        src="assets/icons/logo-full-brang.svg"
+        src="assets/icons/logo-full-brand.svg"
         alt="logo"
         width={120}
         height={120}

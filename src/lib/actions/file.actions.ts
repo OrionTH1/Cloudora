@@ -89,3 +89,71 @@ export const getFiles = async () => {
     handleError(error, "Failed to get files");
   }
 };
+
+export const renameFile = async (
+  fileId: string,
+  name: string,
+  extension: string,
+  path: string
+) => {
+  const { database } = await createAdminClient();
+
+  try {
+    const newName = `${name}.${extension}`;
+
+    const updatedFile = await database.updateDocument(
+      DATABASE_ID!,
+      FILES_COLLECTION_ID!,
+      fileId,
+      { name: newName }
+    );
+
+    revalidatePath(path);
+
+    return updatedFile;
+  } catch (error) {
+    handleError(error, "Failed to rename file");
+  }
+};
+
+export const shareFileToUsers = async (
+  fileId: string,
+  emails: string[],
+  path: string
+) => {
+  const { database } = await createAdminClient();
+
+  try {
+    const updatedFile = await database.updateDocument(
+      DATABASE_ID!,
+      FILES_COLLECTION_ID!,
+      fileId,
+      { users: emails }
+    );
+
+    revalidatePath(path);
+
+    return updatedFile;
+  } catch (error) {
+    handleError(error, "Failed to rename file");
+  }
+};
+
+export const deleteFile = async (
+  fileId: string,
+  bucketFileId: string,
+  path: string
+) => {
+  const { database, storage } = await createAdminClient();
+
+  try {
+    await database.deleteDocument(DATABASE_ID!, FILES_COLLECTION_ID!, fileId);
+
+    await storage.deleteFile(BUCKET_ID!, bucketFileId);
+
+    revalidatePath(path);
+    return { success: true };
+  } catch (error) {
+    handleError(error, "Failed to rename file");
+  }
+};
