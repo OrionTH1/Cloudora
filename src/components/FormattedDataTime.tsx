@@ -1,13 +1,13 @@
 import { cn, formatDateTime } from "@/lib/utils";
 
 interface FormattedDataTimeProps {
-  data: string;
+  date: string;
   className?: string;
 }
-function FormattedDataTime({ data, className }: FormattedDataTimeProps) {
+function FormattedDataTime({ date, className }: FormattedDataTimeProps) {
   return (
     <p className={cn("body-1 text-light-200", className)}>
-      {formatDateTime(data)}
+      {formatDateTime(date)}
     </p>
   );
 }
