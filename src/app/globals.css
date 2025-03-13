@@ -229,7 +229,7 @@
     @apply mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10 !important;
   }
   .dashboard-summary-list {
-    @apply mt-6 grid grid-cols-1 gap-4 xl:mt-10 xl:grid-cols-2 xl:gap-9 !important;
+    @apply mt-6 grid grid-cols-2 gap-4 xl:mt-10 xl:grid-cols-3 xl:gap-9 !important;
   }
   .dashboard-summary-card {
     @apply relative mt-6 rounded-[20px] bg-white p-5 transition-all hover:scale-105 !important;
@@ -470,8 +470,6 @@
     @apply size-full object-cover object-center !important;
   }
 }
-
-
 
 @layer base {
   * {
