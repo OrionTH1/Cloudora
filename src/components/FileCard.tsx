@@ -6,12 +6,11 @@ import FormattedDataTime from "./FormattedDataTime";
 import FileActionDropdown from "./FileActionDropdown";
 
 interface FileCardProps {
-  key: string;
   file: Models.Document;
 }
-function FileCard({ file, key }: FileCardProps) {
+function FileCard({ file }: FileCardProps) {
   return (
-    <Link key={key} href={file.url} target="_blank" className="file-card">
+    <Link href={file.url} target="_blank" className="file-card">
       <div className="flex justify-between">
         <Thumbnail
           type={file.type}
