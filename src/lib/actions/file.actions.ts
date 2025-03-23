@@ -184,3 +184,88 @@ export const deleteFile = async (
     handleError(error, "Failed to rename file");
   }
 };
+
+const updateSpaceUsedFile = (
+  newFile: Models.Document,
+  fileStoraged: SpaceUsedFile
+) => {
+  const newFileDate = new Date(newFile.$updatedAt);
+
+  if (newFileDate.getTime() > fileStoraged.date) {
+    fileStoraged.date = newFileDate.getTime();
+  }
+
+  fileStoraged.size += newFile.size;
+};
+
+export const getTotalSpaceUsed = async () => {
+  try {
+    const files = await getFiles({
+      types: [],
+      searchText: "",
+      sort: "$createdAt-desc",
+    });
+
+    if (!files) throw new Error("Files not found");
+
+    const spaceUsed = {
+      images: {
+        url: "/images",
+        icon: "/assets/icons/file-image-light.svg",
+        date: 0,
+        size: 0,
+        title: "Images",
+      },
+      documents: {
+        url: "/documents",
+        icon: "/assets/icons/file-document-light.svg",
+        date: 0,
+        size: 0,
+        title: "Documents",
+      },
+      media: {
+        url: "/medias",
+        icon: "/assets/icons/file-video-light.svg",
+        date: 0,
+        size: 0,
+        title: "Video, Audio",
+      },
+      others: {
+        url: "/other",
+        icon: "/assets/icons/file-other-light.svg",
+        date: 0,
+        size: 0,
+        title: "Others",
+      },
+      total: 0,
+    } as SpaceUsedObject;
+
+    for (const file of files?.documents) {
+      const fileType = getFileType(file.name).type;
+
+      switch (fileType) {
+        case "document":
+          updateSpaceUsedFile(file, spaceUsed.documents);
+          spaceUsed.total += file.size;
+          break;
+        case "image":
+          updateSpaceUsedFile(file, spaceUsed.images);
+          spaceUsed.total += file.size;
+          break;
+        case "video":
+        case "audio":
+          updateSpaceUsedFile(file, spaceUsed.media);
+          spaceUsed.total += file.size;
+          break;
+        default:
+          updateSpaceUsedFile(file, spaceUsed.others);
+          spaceUsed.total += file.size;
+          break;
+      }
+    }
+
+    return spaceUsed;
+  } catch (error) {
+    handleError(error, "Failed to get total space used");
+  }
+};

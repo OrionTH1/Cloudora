@@ -200,7 +200,7 @@
     @apply cursor-pointer !important;
   }
   .shad-dialog {
-    @apply rounded-[26px] w-[90%] max-w-[400px] px-6 py-8   !important;
+    @apply rounded-[26px] w-[90%] max-w-[400px] px-6 py-8 !important;
   }
   .shad-chart-title {
     @apply text-white !important;
@@ -229,7 +229,7 @@
     @apply mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10 !important;
   }
   .dashboard-summary-list {
-    @apply mt-6 grid grid-cols-2 gap-4 xl:mt-10 xl:grid-cols-3 xl:gap-9 !important;
+    @apply mt-6 grid grid-cols-2 gap-4 xl:mt-10 xl:grid-cols-2 xl:gap-9 !important;
   }
   .dashboard-summary-card {
     @apply relative mt-6 rounded-[20px] bg-white p-5 transition-all hover:scale-105 !important;
@@ -241,7 +241,7 @@
     @apply h4 relative z-20 w-full text-right !important;
   }
   .summary-type-title {
-    @apply h5 relative z-20 text-center !important;
+    @apply h4 relative z-20 text-center !important;
   }
   .dashboard-recent-files {
     @apply h-full rounded-[20px] xl:h-[654px] custom-scrollbar overflow-auto bg-white p-5 xl:p-7 !important;
@@ -350,7 +350,7 @@
     @apply flex-1 items-start px-3 py-0 sm:px-5 lg:p-3 xl:pr-5 !important;
   }
   .chart-total-percentage {
-    @apply fill-white text-4xl font-bold !important;
+    @apply fill-white text-3xl font-bold !important;
   }
   .chart-title {
     @apply h3 font-bold md:text-center lg:text-left !important;

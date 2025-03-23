@@ -22,7 +22,6 @@ function Search() {
 
   useEffect(() => {
     const fetchFIles = async () => {
-      console.log(debouncedQuery.length);
       if (debouncedQuery.length === 0) {
         setResult([]);
         setIsOpen(false);
