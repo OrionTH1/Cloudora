@@ -80,6 +80,14 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -106,6 +114,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -139,7 +155,7 @@
     @apply text-[14px] leading-[20px] font-normal;
   }
   .button {
-    @apply text-[14px] leading-[20px] font-medium;
+    @apply text-[14px] leading-[20px] font-semibold;
   }
   .caption {
     @apply text-[12px] leading-[16px] font-normal;
@@ -153,7 +169,10 @@
     @apply mx-auto max-w-7xl px-5;
   }
   .primary-btn {
-    @apply bg-brand hover:bg-brand-100 transition-all rounded-full button !important;
+    @apply bg-brand hover:bg-brand-100 transition-all h-14 rounded button !important;
+  }
+  .secondary-btn {
+    @apply border border-brand bg-white text-light-100 h-14 rounded button !important;
   }
   .flex-center {
     @apply flex items-center justify-center;
@@ -168,7 +187,7 @@
   }
 
   .shad-form-item {
-    @apply flex h-[78px] flex-col justify-center rounded-xl border border-light-300 px-4 shadow-drop-1;
+    @apply flex h-[66px] flex-col justify-center rounded border border-light-300 px-4;
   }
   .shad-form-label {
     @apply text-light-100 pt-2 body-2 w-full !important;
