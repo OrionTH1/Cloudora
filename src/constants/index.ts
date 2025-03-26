@@ -1,30 +1,65 @@
-export const navItems = [
-  {
-    name: "Dashboard",
-    icon: "/assets/icons/dashboard.svg",
-    url: "/",
+import { Folder, LayoutDashboard, Share2, Trash2 } from "lucide-react";
+
+export const sidebarData = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
   },
-  {
-    name: "Documents",
-    icon: "/assets/icons/documents.svg",
-    url: "/documents",
-  },
-  {
-    name: "Images",
-    icon: "/assets/icons/images.svg",
-    url: "/images",
-  },
-  {
-    name: "Media",
-    icon: "/assets/icons/video.svg",
-    url: "/media",
-  },
-  {
-    name: "Others",
-    icon: "/assets/icons/others.svg",
-    url: "/others",
-  },
-];
+
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "/",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "My Files",
+      url: "#",
+      icon: Folder,
+      isActive: true,
+      items: [
+        {
+          title: "All files",
+          url: "/files",
+          type: "",
+        },
+        {
+          title: "Images",
+          url: "/files?type=images",
+
+          type: "images",
+        },
+        {
+          title: "Documents",
+          url: "/files?type=documents",
+          type: "documents",
+        },
+        {
+          title: "Media",
+          url: "/files?type=media",
+
+          type: "media",
+        },
+        {
+          title: "Others",
+          url: "/files?type=others",
+          type: "other",
+        },
+      ],
+    },
+    {
+      title: "Shared with me",
+      url: "/files/shared",
+      icon: Share2,
+    },
+    {
+      title: "Trash",
+      url: "/trash",
+      icon: Trash2,
+    },
+  ],
+};
 
 export const actionsDropdownItems = [
   {

@@ -1,9 +1,42 @@
 "use client";
-import { navItems } from "@/constants";
+
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
+import {
+  ChevronRight,
+  Folder,
+  GalleryVerticalEnd,
+  LayoutDashboard,
+  Share2,
+  Trash2,
+} from "lucide-react";
+
+import {
+  Sidebar as ShadSidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarRail,
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@radix-ui/react-collapsible";
+import SidebarUser from "./SidebarUser";
+import { useSearchParams } from "next/navigation";
+import { sidebarData } from "@/constants";
 
 interface SidebarProps {
   fullName: string;
@@ -12,74 +45,88 @@ interface SidebarProps {
 }
 
 function Sidebar({ fullName, email, avatar }: SidebarProps) {
-  const pathname = usePathname();
+  const type = useSearchParams().get("type");
+  const { open } = useSidebar();
+
   return (
-    <aside className="sidebar">
-      <Link href={"/"}>
-        <Image
-          src="/assets/icons/logo-full-brand.svg"
-          alt="logo"
-          width={100}
-          height={100}
-          className="hidden h-auto lg:block"
-        />
-        <Image
-          src="/assets/icons/logo-brand.svg"
-          alt="logo"
-          width={52}
-          height={52}
-          className="lg:hidden"
-        />
-      </Link>
-
-      <nav className="sidebar-nav">
-        <ul className="flex flex-1 flex-col gap-6">
-          {navItems.map(({ url, name, icon }) => (
-            <Link href={url} key={name} className="lg:w-full">
-              <li
-                className={cn(
-                  "sidebar-nav-item",
-                  pathname === url && "shad-active"
-                )}
-              >
-                <Image
-                  src={icon}
-                  width={24}
-                  height={24}
-                  alt={`${name} link`}
-                  className={cn(
-                    "nav-icon",
-                    pathname === url && "nav-icon-active"
-                  )}
-                />
-                <p className="hidden lg:block">{name}</p>
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </nav>
-      <Image
-        src="/assets/images/files-2.png"
-        width={508}
-        height={418}
-        alt="logo"
-        className="w-full"
-      />
-
-      <div className="sidebar-user-info">
-        <Image
-          src={avatar}
-          width={44}
-          height={44}
-          alt="Avatar"
-          className="sidebar-user-avatar"
-        />
-        <div className="hidden lg:block">
-          <p className="subtitle-2 capitalize">{fullName}</p>
-          <p className="caption">{email}</p>
-        </div>
-      </div>
-    </aside>
+    <ShadSidebar collapsible="icon">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem
+            className={cn("flex justify-between gap-2", !open && "flex-col")}
+          >
+            <div className="flex gap-2">
+              <div className="flex items-center justify-center rounded-[8px] bg-brand p-2">
+                <GalleryVerticalEnd color="#FFFFFF" size={16} />
+              </div>
+              <div className={cn(open ? "flex flex-col" : "hidden")}>
+                <h1 className="text-sm font-bold">Cloudora</h1>
+                <p className="text-xs">Enterprise</p>
+              </div>
+            </div>
+            <SidebarTrigger className="size-8" />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          <SidebarMenu>
+            {sidebarData.navMain.map((item) =>
+              item.items ? (
+                <Collapsible
+                  key={item.title}
+                  asChild
+                  defaultOpen={item.isActive}
+                  className="group/collapsible"
+                >
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton tooltip={item.title}>
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {item.items?.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton
+                              asChild
+                              className={cn(
+                                type === subItem.type && "shad-active"
+                              )}
+                            >
+                              <a href={subItem.url}>
+                                <span>{subItem.title}</span>
+                              </a>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
+                  </SidebarMenuItem>
+                </Collapsible>
+              ) : (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <Link href={item.url}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )
+            )}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <SidebarUser user={{ name: fullName, email, avatar }} />
+      </SidebarFooter>
+      <SidebarRail />
+    </ShadSidebar>
   );
 }
 
