@@ -80,13 +80,13 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 216.67, 47.37%, 92.55%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
@@ -120,7 +120,7 @@
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-border: 216.67, 47.37%, 92.55%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -209,7 +209,7 @@
   }
 
   .shad-sheet {
-    @apply pt-0 !important;
+    @apply p-4 !important;
   }
   .shad-sheet button,
   .shad-dialog button {
@@ -240,7 +240,7 @@
 
   /* Root Layout */
   .main-content {
-    @apply remove-scrollbar h-full flex-1 overflow-auto bg-light-400 px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10 !important;
+    @apply remove-scrollbar h-full flex-1 overflow-auto  px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10 !important;
   }
 
   /* Dashboard */
@@ -286,7 +286,7 @@
     @apply flex mt-2 flex-col justify-between sm:flex-row sm:items-center !important;
   }
   .file-list {
-    @apply grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 !important;
+    @apply grid w-full gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 !important;
   }
   .sort-container {
     @apply mt-5 flex items-center sm:mt-0 sm:gap-3 !important;
@@ -349,7 +349,7 @@
 
   /* Card */
   .file-card {
-    @apply flex cursor-pointer flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all hover:shadow-drop-3 !important;
+    @apply flex flex-col gap-6 rounded-[18px] bg-light-500 p-5 transition-all hover:bg-light-400 !important;
   }
   .file-card-details {
     @apply flex flex-col gap-2 text-light-100 !important;
@@ -398,7 +398,7 @@
 
   /* Header */
   .header {
-    @apply hidden items-center justify-between gap-5 p-5 sm:flex lg:py-7 xl:gap-10 !important;
+    @apply hidden items-center justify-between gap-5 p-5 md:flex lg:py-7 xl:gap-10 !important;
   }
   .header-wrapper {
     @apply flex-center min-w-fit gap-4 !important;
@@ -409,7 +409,7 @@
 
   /* Mobile Navigation */
   .mobile-header {
-    @apply flex h-[60px] justify-between px-5 sm:hidden !important;
+    @apply flex h-[60px] justify-between px-5 md:hidden !important;
   }
   .header-user {
     @apply my-3 flex items-center gap-2 rounded-full p-1 text-light-100 sm:justify-center sm:bg-brand/10 lg:justify-start lg:p-3 !important;
@@ -440,37 +440,21 @@
     @apply relative w-full md:max-w-[480px] !important;
   }
   .search-input-wrapper {
-    @apply flex h-[52px] flex-1 items-center gap-3 rounded-full px-4 shadow-drop-3 !important;
+    @apply flex h-[52px] flex-1 items-center gap-3 rounded-full px-4 border border-light-300 !important;
   }
   .search-input {
     @apply body-2 shad-no-focus  placeholder:body-1 w-full border-none p-0 shadow-none placeholder:text-light-200 !important;
   }
   .search-result {
-    @apply absolute left-0 top-16 z-50 flex w-full flex-col gap-3 rounded-[20px] bg-white p-4 !important;
+    @apply absolute left-0 top-16 z-50 flex w-full flex-col gap-3 rounded-[20px] bg-light-500 p-4 !important;
   }
   .empty-result {
     @apply body-2 text-center text-light-100 !important;
   }
 
   /* Sidebar */
-  .sidebar {
-    @apply remove-scrollbar hidden h-screen w-[90px] flex-col overflow-auto px-5 py-7 sm:flex lg:w-[280px] xl:w-[325px] !important;
-  }
-  .sidebar-nav {
-    @apply h5 mt-9 flex-1 gap-1 text-brand !important;
-  }
-  .sidebar-nav-item {
-    @apply flex text-light-100 gap-4 rounded-xl lg:w-full justify-center lg:justify-start items-center h5 lg:px-[30px] h-[52px] lg:rounded-full !important;
-  }
-  .sidebar-user-info {
-    @apply mt-4 flex items-center justify-center gap-2 rounded-full bg-brand/10 p-1 text-light-100 lg:justify-start lg:p-3 !important;
-  }
-  .sidebar-user-avatar {
-    @apply aspect-square w-10 rounded-full object-cover !important;
-  }
-
   .shad-active {
-    @apply bg-brand text-white shadow-drop-2 !important;
+    @apply bg-light-400 text-light-100 !important;
   }
 
   /* Sort */
@@ -483,7 +467,7 @@
 
   /* Thumbnail */
   .thumbnail {
-    @apply flex-center size-[50px] min-w-[50px] overflow-hidden rounded-full bg-brand/10;
+    @apply flex-center size-[50px] min-w-[50px] overflow-hidden rounded-full bg-light-400;
   }
   .thumbnail-image {
     @apply size-full object-cover object-center !important;
