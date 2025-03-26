@@ -29,6 +29,8 @@ function OTPModal({ accountId, email }: { accountId: string; email: string }) {
     event.preventDefault();
     setisLoading(true);
 
+    if (!accountId || !email) return;
+
     try {
       const sessionId = await verifySecret(accountId, password);
       if (sessionId) router.push("/");

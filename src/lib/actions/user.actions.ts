@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { ID, OAuthProvider, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { DATABASE_ID, USERS_COLLECTION_ID } from "../appwrite/config";
 import { cookies } from "next/headers";
@@ -20,11 +20,26 @@ const getUserByEmail = async (email: string) => {
   return users.total > 0 ? users.documents[0] : null;
 };
 
-export const sendEmailOTP = async (email: string) => {
+const getUserById = async (id: string) => {
+  const { database } = await createAdminClient();
+
+  const users = await database.listDocuments(
+    DATABASE_ID!,
+    USERS_COLLECTION_ID!,
+    [Query.equal("accountId", [id])]
+  );
+
+  return users.total > 0 ? users.documents[0] : null;
+};
+
+export const sendEmailOTP = async (email: string, id?: string) => {
   const { account } = await createAdminClient();
 
   try {
-    const session = await account.createEmailToken(ID.unique(), email);
+    const session = await account.createEmailToken(
+      id ? id : ID.unique(),
+      email
+    );
 
     return session.userId;
   } catch (error) {
@@ -32,17 +47,30 @@ export const sendEmailOTP = async (email: string) => {
   }
 };
 
-export const createAccount = async (fullName: string, email: string) => {
+export const createEmailAuthAccount = async (
+  fullName: string,
+  email: string
+) => {
   const existingUser = await getUserByEmail(email);
 
-  const accountId = await sendEmailOTP(email);
+  const accountId = await sendEmailOTP(email, existingUser?.$id);
 
   if (!accountId) throw new Error("Failed to send email OTP");
+
+  return { accountId };
+};
+
+export const createAccountIfNotExists = async (
+  accountId: string,
+  fullName: string,
+  email: string
+) => {
+  const existingUser = await getUserById(accountId);
 
   if (!existingUser) {
     const { database } = await createAdminClient();
 
-    await database.createDocument(
+    const user = await database.createDocument(
       DATABASE_ID!,
       USERS_COLLECTION_ID!,
       ID.unique(),
@@ -53,9 +81,27 @@ export const createAccount = async (fullName: string, email: string) => {
         accountId,
       }
     );
+
+    return user;
   }
 
-  return { accountId };
+  return existingUser;
+};
+
+export const createOAuthAccount = async () => {
+  try {
+    const { account } = await createAdminClient();
+
+    const OAuthURL = account.createOAuth2Token(
+      OAuthProvider.Google,
+      "http://localhost:3000/oauth",
+      "http://localhost:3000/sign-in"
+    );
+
+    return OAuthURL;
+  } catch (error) {
+    handleError(error, "Failed to create OAuth account");
+  }
 };
 
 export const verifySecret = async (accountId: string, password: string) => {
@@ -69,6 +115,11 @@ export const verifySecret = async (accountId: string, password: string) => {
       sameSite: "strict",
       secure: true,
     });
+
+    const { account: sessionAccount } = await createSessionClient();
+    const user = await sessionAccount.get();
+
+    createAccountIfNotExists(accountId, user.name, user.email);
 
     return { sessionId: session.$id };
   } catch (error) {
@@ -96,9 +147,8 @@ export const signOutUser = async () => {
   try {
     await account.deleteSession("current");
     (await cookies()).delete("appwrite-session");
+    redirect("/sign-in");
   } catch (error) {
     handleError(error, "Failed to sign out user");
-  } finally {
-    redirect("/sign-in");
   }
 };

@@ -75,10 +75,10 @@ function Search() {
               result.map((file) => (
                 <li
                   key={file.$id}
-                  className="flex items-center justify-between"
+                  className="flex cursor-pointer items-center justify-between rounded-lg p-2 transition-all hover:bg-light-400"
                   onClick={() => handleClickItem(file)}
                 >
-                  <div className="flex cursor-pointer items-center gap-4">
+                  <div className="flex items-center gap-4">
                     <Thumbnail
                       type={file.type}
                       extension={file.extension}
