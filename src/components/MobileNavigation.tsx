@@ -11,7 +11,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Separator } from "./ui/separator";
-import { navItems } from "@/constants";
+import { sidebarData } from "@/constants";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import FileUploader from "./FileUploader";
@@ -73,7 +73,7 @@ function MobileNavigation({
             </SheetTitle>
             <nav className="mobile-nav">
               <ul className="mobile-nav-list">
-                {navItems.map(({ url, name, icon }) => (
+                {/* {navItems.map(({ url, name, icon }) => (
                   <Link href={url} key={name} className="lg:w-full">
                     <li
                       className={cn(
@@ -94,7 +94,7 @@ function MobileNavigation({
                       <p>{name}</p>
                     </li>
                   </Link>
-                ))}
+                ))}  */}
               </ul>
             </nav>
 
