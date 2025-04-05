@@ -25,11 +25,7 @@ export const convertFileSize = (sizeInBytes: number, digits?: number) => {
 };
 
 export const calculateAngle = (sizeInBytes: number, maxStorageSize: number) => {
-  console.log(sizeInBytes);
-  console.log(maxStorageSize);
-
   const percentage = (sizeInBytes / maxStorageSize) * 360;
-  console.log(percentage);
 
   return Number(percentage.toFixed(2));
 };
