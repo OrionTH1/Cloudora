@@ -24,16 +24,22 @@ export const convertFileSize = (sizeInBytes: number, digits?: number) => {
   }
 };
 
-export const calculateAngle = (sizeInBytes: number) => {
-  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
-  const percentage = (sizeInBytes / totalSizeInBytes) * 360;
+export const calculateAngle = (sizeInBytes: number, maxStorageSize: number) => {
+  console.log(sizeInBytes);
+  console.log(maxStorageSize);
+
+  const percentage = (sizeInBytes / maxStorageSize) * 360;
+  console.log(percentage);
+
   return Number(percentage.toFixed(2));
 };
 
-export const calculatePercentage = (sizeInBytes: number) => {
-  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
-  const percentage = (sizeInBytes / totalSizeInBytes) * 100;
-  return Number(percentage.toFixed(1));
+export const calculatePercentage = (
+  sizeInBytes: number,
+  maxStorageSize: number
+) => {
+  const percentage = (sizeInBytes / maxStorageSize) * 100;
+  return Math.trunc(percentage);
 };
 
 export const getFileType = (fileName: string) => {
