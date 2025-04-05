@@ -11,7 +11,7 @@ export default {
     extend: {
       colors: {
         brand: {
-          "100": "#3A80F6",
+          "100": "#3271DB",
           DEFAULT: "#3A80F6",
         },
         red: "#FF7474",
@@ -20,6 +20,7 @@ export default {
         blue: "#56B8FF",
         pink: "#EEA8FD",
         orange: "#F9AB72",
+        gold: "#FFCE1B",
         light: {
           "100": "#333F4E",
           "200": "#A3B2C7",
