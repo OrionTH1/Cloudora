@@ -21,7 +21,7 @@ import {
   createEmailAuthAccount,
   createOAuthAccount,
 } from "@/lib/actions/user.actions";
-import OTPModal from "./OPTModal";
+import OTPModal from "../OTPModal";
 import { useRouter } from "next/navigation";
 type FormType = "sign-in" | "sign-up";
 
@@ -63,11 +63,18 @@ function AuthForm({ type }: { type: FormType }) {
     try {
       const user = await createEmailAuthAccount(
         values.fullName || "",
-        values.email
+        values.email,
+        type
       );
 
       setAccountId(user.accountId);
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.message === "Email already exists") {
+        return setError("email", {
+          message: "A user with this email already exists. Try sign in.",
+        });
+      }
       setError("root", { message: "Something went wrong, please try again." });
       console.error(error);
     } finally {
@@ -85,7 +92,6 @@ function AuthForm({ type }: { type: FormType }) {
       if (OAuthURL) {
         router.push(OAuthURL);
       }
-      // setAccountId(user.accountId);
     } catch (error) {
       setError("root", { message: "Something went wrong, please try again." });
       console.error(error);
@@ -149,7 +155,7 @@ function AuthForm({ type }: { type: FormType }) {
           <div className="flex flex-col gap-4">
             <Button
               type="submit"
-              className="form-submit-button"
+              className="shad-submit-btn"
               disabled={isLoading}
             >
               {type === "sign-in" ? "Sign In" : "Sign Up"}
@@ -171,7 +177,7 @@ function AuthForm({ type }: { type: FormType }) {
               onClick={handleGoogleAuth}
             >
               <Image
-                src="assets/icons/google-icon.svg"
+                src="/assets/icons/google-icon.svg"
                 width={24}
                 height={24}
                 alt="Google Icon"
@@ -207,7 +213,12 @@ function AuthForm({ type }: { type: FormType }) {
         </form>
       </Form>
       {accountId && (
-        <OTPModal email={form.getValues("email")} accountId={accountId} />
+        <OTPModal
+          email={form.getValues("email")}
+          accountId={accountId}
+          setAccountId={setAccountId}
+          name={form.getValues("fullName") || ""}
+        />
       )}
     </>
   );
