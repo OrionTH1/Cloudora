@@ -1,6 +1,13 @@
 "use server";
 
-import { Account, Avatars, Client, Databases, Storage } from "node-appwrite";
+import {
+  Account,
+  Avatars,
+  Client,
+  Databases,
+  Storage,
+  Users,
+} from "node-appwrite";
 import { cookies } from "next/headers";
 import {
   SECRET_KEY,
@@ -38,6 +45,9 @@ export const createAdminClient = async () => {
     .setKey(SECRET_KEY!);
 
   return {
+    get users() {
+      return new Users(client);
+    },
     get account() {
       return new Account(client);
     },

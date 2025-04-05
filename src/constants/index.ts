@@ -116,7 +116,74 @@ export const sortTypes = [
   },
 ];
 
+export const princing: Pricing[] = [
+  {
+    name: "Free",
+    type: "free",
+    monthlyPrice: 0,
+    annuallyPrice: 0,
+    description: "A great option for test our application",
+    features: [
+      {
+        title: "50MB Storage",
+        avaiable: true,
+      },
+      {
+        title: "Upload Photo, Documents and Files",
+        avaiable: true,
+      },
+      {
+        title: "Can Share files with other users",
+        avaiable: false,
+      },
+    ],
+  },
+  {
+    name: "Basic",
+    type: "basic",
+    monthlyPrice: 10,
+    annuallyPrice: 5,
+    description: "A great option for common users",
+    features: [
+      {
+        title: "1GB Storage",
+        avaiable: true,
+      },
+      {
+        title: "Upload Photo, Documents and Files",
+        avaiable: true,
+      },
+      {
+        title: "Can Share files with other users",
+        avaiable: true,
+      },
+    ],
+  },
+  {
+    name: "Pro",
+    type: "pro",
+    monthlyPrice: 20,
+    annuallyPrice: 10,
+    description: "A awesome option for users with more needs",
+    features: [
+      {
+        title: "2GB Storage",
+        avaiable: true,
+      },
+      {
+        title: "Upload Photo, Documents and Files",
+        avaiable: true,
+      },
+      {
+        title: "Can Share files with other users",
+        avaiable: true,
+      },
+    ],
+  },
+];
+
 export const avatarPlacerHolderUrl =
   "https://storage.needpix.com/rsynced_images/avatar-1577909_1280.png";
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+export const MAX_PROFILE_SIZE = 2 * 1024 * 1024; // 2MB
 export const MAX_FILE_SIZE_READABLE = MAX_FILE_SIZE / 1024 / 1024; // 5MB
