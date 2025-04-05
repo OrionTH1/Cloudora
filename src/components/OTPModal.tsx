@@ -16,29 +16,57 @@ import {
 import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { sendEmailOTP, verifySecret } from "@/lib/actions/user.actions";
+import { sendEmailOTP, createSessionSecret } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-function OTPModal({ accountId, email }: { accountId: string; email: string }) {
+function OTPModal({
+  accountId,
+  setAccountId,
+  email,
+  name,
+}: {
+  accountId: string;
+  setAccountId: (accountId: string | null) => void;
+  email: string;
+  name: string;
+}) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState("");
   const [isLoading, setisLoading] = useState(false);
+  const [errors, setErrors] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setisLoading(true);
+    setErrors(null);
 
     if (!accountId || !email) return;
 
     try {
-      const sessionId = await verifySecret(accountId, password);
-      if (sessionId) router.push("/");
-    } catch (error) {
+      const sessionId = await createSessionSecret(accountId, password, name);
+
+      if (
+        sessionId &&
+        sessionId.error &&
+        sessionId.error.type === "user_invalid_token"
+      ) {
+        setisLoading(false);
+        return setErrors(sessionId.error.message);
+      }
+
+      if (sessionId) return router.push("/cloud");
+
+      setErrors("Something went wrong, try again.");
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error("Failed to verify OTP", error);
-    } finally {
-      setisLoading(false);
+      setErrors("Something went wrong, try again.");
     }
+
+    setisLoading(false);
   };
 
   const handleResendOtp = async () => {
@@ -63,7 +91,10 @@ function OTPModal({ accountId, email }: { accountId: string; email: string }) {
               alt="close"
               width={20}
               height={20}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                setAccountId(null);
+              }}
               className="otp-close-button"
             />
           </AlertDialogTitle>
@@ -71,7 +102,11 @@ function OTPModal({ accountId, email }: { accountId: string; email: string }) {
             We&apos;ve sent a code to{" "}
             <span className="text-brand">{email}</span>
           </AlertDialogDescription>
-          <InputOTP maxLength={6} value={password} onChange={setPassword}>
+          <InputOTP
+            maxLength={6}
+            value={password}
+            onChange={(value) => setPassword(value.replace(/\D/g, "").trim())}
+          >
             <InputOTPGroup className="shad-otp">
               <InputOTPSlot index={0} className="shad-otp-slot" />
               <InputOTPSlot index={1} className="shad-otp-slot" />
@@ -101,6 +136,9 @@ function OTPModal({ accountId, email }: { accountId: string; email: string }) {
                 />
               )}
             </AlertDialogAction>
+            <div className={cn(errors ? "block" : "hidden")}>
+              <p className="shad-form-message text-center">{errors}</p>
+            </div>
             <div className="subtitle-2 mt-2 text-center text-light-200">
               Didn&apos;t get a code?
               <Button
