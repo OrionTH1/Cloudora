@@ -8,12 +8,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Separator } from "./ui/separator";
-import { sidebarData } from "@/constants";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+
 import FileUploader from "./FileUploader";
 import { Button } from "./ui/button";
 import { signOutUser } from "@/lib/actions/user.actions";
@@ -34,7 +31,6 @@ function MobileNavigation({
   userId,
 }: MobileNavigationProps) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
   return (
     <header className="mobile-header">
       <Image

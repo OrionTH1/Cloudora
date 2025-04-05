@@ -3,14 +3,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-import {
-  ChevronRight,
-  Folder,
-  GalleryVerticalEnd,
-  LayoutDashboard,
-  Share2,
-  Trash2,
-} from "lucide-react";
+import { ChevronRight, GalleryVerticalEnd } from "lucide-react";
 
 import {
   Sidebar as ShadSidebar,
@@ -42,9 +35,10 @@ interface SidebarProps {
   fullName: string;
   email: string;
   avatar: string;
+  planType: PlansTypes;
 }
 
-function Sidebar({ fullName, email, avatar }: SidebarProps) {
+function Sidebar({ fullName, email, avatar, planType }: SidebarProps) {
   const type = useSearchParams().get("type");
   const { open } = useSidebar();
 
@@ -123,7 +117,7 @@ function Sidebar({ fullName, email, avatar }: SidebarProps) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarUser user={{ name: fullName, email, avatar }} />
+        <SidebarUser user={{ name: fullName, email, avatar, plan: planType }} />
       </SidebarFooter>
       <SidebarRail />
     </ShadSidebar>
