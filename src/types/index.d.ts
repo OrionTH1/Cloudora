@@ -82,3 +82,18 @@ declare interface SpaceUsedFile {
   date: number;
   size: number;
 }
+
+declare type PlansTypes = "free" | "basic" | "pro";
+declare type PlansNames = "Free" | "Basic" | "Pro";
+declare interface PricingFeatures {
+  title: string;
+  avaiable: boolean;
+}
+declare interface Pricing {
+  name: PlansNames;
+  type: PlansTypes;
+  annuallyPrice: number;
+  monthlyPrice: number;
+  description: string;
+  features: PricingFeatures[];
+}
