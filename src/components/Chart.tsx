@@ -32,7 +32,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function Chart({ storageUsed }: { storageUsed: number }) {
+function Chart({
+  storageUsed,
+  maxStorageSize,
+}: {
+  storageUsed: number;
+  maxStorageSize: number;
+}) {
   const chartData = [
     { storage: "storageUsed", 10: storageUsed, fill: "white" },
   ];
@@ -44,7 +50,7 @@ function Chart({ storageUsed }: { storageUsed: number }) {
           <RadialBarChart
             data={chartData}
             startAngle={90}
-            endAngle={Number(calculateAngle(storageUsed)) + 90}
+            endAngle={Number(calculateAngle(storageUsed, maxStorageSize)) + 90}
             innerRadius={80}
             outerRadius={110}
           >
@@ -72,8 +78,9 @@ function Chart({ storageUsed }: { storageUsed: number }) {
                           y={viewBox.cy}
                           className="chart-total-percentage"
                         >
-                          {storageUsed && calculatePercentage(storageUsed)
-                            ? calculatePercentage(storageUsed)
+                          {storageUsed &&
+                          calculatePercentage(storageUsed, maxStorageSize)
+                            ? calculatePercentage(storageUsed, maxStorageSize)
                                 .toString()
                                 .replace(/^0+/, "")
                                 .replace(".", "")
@@ -99,7 +106,8 @@ function Chart({ storageUsed }: { storageUsed: number }) {
       <CardHeader className="chart-details">
         <CardTitle className="chart-title">Available Storage</CardTitle>
         <CardDescription className="chart-description">
-          {storageUsed ? convertFileSize(storageUsed) : "0GB"} / 2GB
+          {storageUsed ? convertFileSize(storageUsed) : "0GB"} /{" "}
+          {convertFileSize(maxStorageSize, 0)}
         </CardDescription>
       </CardHeader>
     </Card>
