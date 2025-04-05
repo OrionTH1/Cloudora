@@ -35,7 +35,8 @@ export const calculatePercentage = (
   maxStorageSize: number
 ) => {
   const percentage = (sizeInBytes / maxStorageSize) * 100;
-  return Math.trunc(percentage);
+
+  return percentage > 100 ? 100 : Math.trunc(percentage);
 };
 
 export const getFileType = (fileName: string) => {
