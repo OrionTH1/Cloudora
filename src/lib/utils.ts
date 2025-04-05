@@ -258,3 +258,7 @@ export const handleError = (error: unknown, message: string) => {
 
   throw error;
 };
+
+export const capitalize = (str: string) => {
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
