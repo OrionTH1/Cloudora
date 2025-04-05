@@ -13,10 +13,16 @@ import { usePathname } from "next/navigation";
 interface FileUploaderProps {
   ownerId: string;
   accountId: string;
+  maxStorageSize: number;
   className?: string;
 }
 
-function FileUploader({ accountId, className, ownerId }: FileUploaderProps) {
+function FileUploader({
+  accountId,
+  className,
+  ownerId,
+  maxStorageSize,
+}: FileUploaderProps) {
   const [files, setFiles] = useState<File[]>([]);
   const path = usePathname();
   const onDrop = useCallback(
@@ -40,20 +46,38 @@ function FileUploader({ accountId, className, ownerId }: FileUploaderProps) {
           });
         }
 
-        return uploadFiles(file, ownerId, accountId, path).then(
-          (uploadedFile) => {
+        return uploadFiles(file, ownerId, accountId, maxStorageSize, path)
+          .then((uploadedFile) => {
             if (uploadedFile) {
               setFiles((prev) =>
                 prev.filter((prevFile) => prevFile.name !== uploadedFile.name)
               );
             }
-          }
-        );
+          })
+          .catch((err) => {
+            setFiles((prev) =>
+              prev.filter((prevFile) => prevFile.name !== file.name)
+            );
+            if (err.message === "Storage limit exceeded.") {
+              toast("", {
+                description() {
+                  return (
+                    <p className="body-2 text-white">
+                      Upload failed:{" "}
+                      <span className="font-semibold">{file.name} </span> file
+                      exceeds your plan’s storage limit.
+                    </p>
+                  );
+                },
+                className: "error-toast",
+              });
+            }
+          });
       });
 
       await Promise.all(uploadPromise);
     },
-    [ownerId, accountId, path]
+    [ownerId, accountId, maxStorageSize, path]
   );
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
