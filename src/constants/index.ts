@@ -10,7 +10,7 @@ export const sidebarData = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/cloud",
       icon: LayoutDashboard,
     },
     {
@@ -21,41 +21,41 @@ export const sidebarData = {
       items: [
         {
           title: "All files",
-          url: "/files",
+          url: "/cloud/files",
           type: "",
         },
         {
           title: "Images",
-          url: "/files?type=images",
+          url: "/cloud/files?type=images",
 
           type: "images",
         },
         {
           title: "Documents",
-          url: "/files?type=documents",
+          url: "/cloud/files?type=documents",
           type: "documents",
         },
         {
           title: "Media",
-          url: "/files?type=media",
+          url: "/cloud/files?type=media",
 
           type: "media",
         },
         {
           title: "Others",
-          url: "/files?type=others",
+          url: "/cloud/files?type=others",
           type: "other",
         },
       ],
     },
     {
       title: "Shared with me",
-      url: "/files/shared",
+      url: "/cloud/files/shared",
       icon: Share2,
     },
     {
       title: "Trash",
-      url: "/trash",
+      url: "/cloud/trash",
       icon: Trash2,
     },
   ],

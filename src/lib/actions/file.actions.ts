@@ -15,10 +15,19 @@ export const uploadFiles = async (
   file: File,
   ownerId: string,
   accountId: string,
+  maxStorageSize: number,
   path: string
 ) => {
   const { storage, database } = await createAdminClient();
   try {
+    const totalStorageUsed = await getTotalSpaceUsed();
+
+    if (totalStorageUsed) {
+      if (totalStorageUsed.total + file.size > maxStorageSize) {
+        throw new Error("Storage limit exceeded.");
+      }
+    }
+
     const inputFile = InputFile.fromBuffer(file, file.name);
 
     const bucketFile = await storage.createFile(
@@ -120,13 +129,12 @@ export const getFiles = async ({
 export const renameFile = async (
   fileId: string,
   name: string,
-  extension: string,
   path: string
 ) => {
   const { database } = await createAdminClient();
 
   try {
-    const newName = `${name}.${extension}`;
+    const newName = `${name}`;
 
     const updatedFile = await database.updateDocument(
       DATABASE_ID!,
@@ -210,28 +218,28 @@ export const getTotalSpaceUsed = async () => {
 
     const spaceUsed = {
       images: {
-        url: "/images",
+        url: "/cloud/files?type=images",
         icon: "/assets/icons/file-image-light.svg",
         date: 0,
         size: 0,
         title: "Images",
       },
       documents: {
-        url: "/documents",
+        url: "/cloud/files?type=documents",
         icon: "/assets/icons/file-document-light.svg",
         date: 0,
         size: 0,
         title: "Documents",
       },
       media: {
-        url: "/medias",
+        url: "/cloud/files?type=medias",
         icon: "/assets/icons/file-video-light.svg",
         date: 0,
         size: 0,
         title: "Video, Audio",
       },
       others: {
-        url: "/other",
+        url: "/cloud/files?type=other",
         icon: "/assets/icons/file-other-light.svg",
         date: 0,
         size: 0,
