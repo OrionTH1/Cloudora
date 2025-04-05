@@ -1,97 +1,115 @@
-import Chart from "@/components/Chart";
-import FileActionDropdown from "@/components/FileActionDropdown";
-import FormattedDataTime from "@/components/FormattedDataTime";
-import Thumbnail from "@/components/Thumbnail";
+import PricingList from "@/components/PricingList";
 import { Separator } from "@/components/ui/separator";
-import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
-import { convertFileSize } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Home() {
-  const [files, usedStorageSpace] = await Promise.all([
-    getFiles({ types: [], limit: 6, sort: "$createdAt-desc" }),
-    getTotalSpaceUsed(),
-  ]);
+function LadingPage() {
   return (
-    <div className="dashboard-container">
-      <section>
-        <Chart storageUsed={usedStorageSpace?.total || 0} />
-        <ul className="dashboard-summary-list">
-          {usedStorageSpace &&
-            Object.entries(usedStorageSpace).map(([key, value]) => {
-              if (key === "total") return;
-              return (
-                <Link
-                  key={key}
-                  href={value.url}
-                  className="dashboard-summary-card"
-                >
-                  <div className="space-y-4">
-                    <div className="flex justify-between gap-3">
-                      <Image
-                        src={value.icon}
-                        width={100}
-                        height={100}
-                        alt="uploaded image"
-                        className="summary-type-icon"
-                      />
-                      <h4 className="summary-type-size">
-                        {convertFileSize(value.size)}
-                      </h4>
-                    </div>
+    <div>
+      <main>
+        <section id="company" className="flex w-full">
+          <div className="flex-1 bg-brand px-9 text-white">
+            <h1 className="mb-14 mt-9 text-5xl font-medium">Cloudora</h1>
+            <div className="mb-8 flex w-[340px] flex-col gap-4">
+              <h2 className="text-4xl/[3.466rem] font-bold">
+                Manage your files the best way
+              </h2>
+              <p className="text-base/6">
+                We&apos;ve created the perfect place for you to store all your
+                documents.
+              </p>
+            </div>
 
-                    <h5 className="summary-type-title">{value.title}</h5>
-                    <Separator className="bg-light-400" />
-                    <div className="space-y-2">
-                      <p className="text-center text-light-200">Last update</p>
-                      <FormattedDataTime
-                        date={new Date(
-                          usedStorageSpace.documents.date
-                        ).toString()}
-                        className="text-center text-light-100"
-                      />
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-        </ul>
-      </section>
-      <section className="dashboard-recent-files">
-        <h2 className="h3 xl:h2 text-light-100">Recent Files uploaded</h2>
-        <ul className="mt-5 flex flex-col gap-5">
-          {files && files.total > 0 ? (
-            files.documents.map((file) => (
-              <li key={file.$id}>
-                <Link
-                  href={file.url}
-                  target="_blank"
-                  className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-light-300"
-                >
-                  <Thumbnail
-                    type={file.type}
-                    extension={file.extension}
-                    url={file.url}
-                  />
-                  <div className="recent-file-details">
-                    <div className="flex flex-col gap-1">
-                      <p className="recent-file-name">{file.name}</p>
-                      <FormattedDataTime
-                        date={file.$createdAt}
-                        className="caption"
-                      />
-                    </div>
-                    <FileActionDropdown file={file} />
-                  </div>
-                </Link>
-              </li>
-            ))
-          ) : (
-            <p>No files found</p>
-          )}
-        </ul>
-      </section>
+            <div className="mb-14 flex gap-8">
+              <Link
+                href={"/sign-up"}
+                className="flex w-[150px] items-center justify-center rounded bg-white py-3 font-medium text-light-100 "
+              >
+                Start now
+              </Link>
+              <a
+                href="#pricing"
+                className="flex w-[150px] items-center justify-center rounded border-2 border-white bg-transparent py-3 font-medium text-white"
+              >
+                View pricing
+              </a>
+            </div>
+          </div>
+
+          <aside className="hidden flex-1 lg:flex">
+            <Image
+              src="/assets/images/ilustration.svg"
+              alt="Ilustration"
+              width={600}
+              height={450}
+            />
+          </aside>
+        </section>
+        <section
+          id="about"
+          className="flex w-full flex-col items-center px-9 py-16 lg:flex-row lg:items-center lg:justify-between"
+        >
+          <div className="mb-12 w-[570px]">
+            <h1 className="mb-5 text-4xl font-bold text-light-100">
+              Your Cloud, Simple & Secure!
+            </h1>
+            <p className="text-xl font-medium text-light-100">
+              Store, access, and share your files anytime, anywhere. Fast,
+              secure, and reliable cloud storage—your data, always within reach.
+            </p>
+          </div>
+          <div>
+            <Image
+              src="/assets/images/app-preview.png"
+              alt="App preview"
+              width={500}
+              height={400}
+            />
+          </div>
+        </section>
+        <section
+          className="flex w-full flex-col items-center gap-10 bg-brand p-10 lg:grid-cols-3"
+          id="pricing"
+        >
+          <PricingList style="light" />
+        </section>
+      </main>
+      <footer className="flex w-full flex-col items-center gap-4 px-20 py-8">
+        <div className="flex flex-col items-center gap-1">
+          <h1 className="text-3xl font-medium text-brand">Cloudora</h1>
+          <p className="text-sm text-light-100/60">
+            @ 2025 Cloudora All right reserved
+          </p>
+        </div>
+        <Separator />
+        <div className="flex gap-12">
+          <ul className="flex gap-2 text-sm text-light-100/60 underline">
+            <li>
+              <a href="#company">Company</a>
+            </li>
+            <li>
+              <a href="#about">About</a>
+            </li>
+            <li>
+              <a href="#pricing">Pricing</a>
+            </li>
+          </ul>
+
+          <ul className="flex gap-2 text-sm text-light-100/60 underline">
+            <li>
+              <Link href={"/cloud/dashboard"}>Dashboard</Link>
+            </li>
+            <li>
+              <Link href={"/cloud/files"}>Files</Link>
+            </li>
+            <li>
+              <Link href={"/cloud/settings"}>Settings</Link>
+            </li>
+          </ul>
+        </div>
+      </footer>
     </div>
   );
 }
+
+export default LadingPage;
