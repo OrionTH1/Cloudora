@@ -30,6 +30,7 @@ import {
 } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
 import FileShareInput, { FileDetails } from "./FileActionsModalContent";
+import { toast } from "sonner";
 
 function FileActionDropdown({ file }: { file: Models.Document }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -44,7 +45,6 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
     setIsDropdownOpen(false);
     setIsModalOpen(false);
     setAction(null);
-    setName(file.name);
     setEmails([]);
   };
 
@@ -55,14 +55,29 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
       setIsLoading(true);
 
       const actions = {
-        rename: () => renameFile(file.$id, name, file.extension, pathname),
+        rename: () => renameFile(file.$id, name, pathname),
         share: () => shareFileToUsers(file.$id, emails, pathname),
         delete: () => deleteFile(file.$id, file.bucketFileId, pathname),
       };
 
       const success = await actions[action.value as keyof typeof actions]();
 
-      if (success) closeAllModels();
+      if (success) {
+        closeAllModels();
+
+        toast("", {
+          description() {
+            return (
+              <p className="body-2 text-white">
+                File {action.value}d
+                <span className="font-semibold"> successfully</span>
+              </p>
+            );
+          },
+
+          className: "success-toast",
+        });
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -115,7 +130,11 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
             <Button onClick={closeAllModels} className="modal-cancel-button">
               Cancel
             </Button>
-            <Button onClick={handleAction} className="modal-submit-button">
+            <Button
+              onClick={handleAction}
+              className="modal-submit-button"
+              disabled={isLoading}
+            >
               <p className="capitalize">{value}</p>
               {isLoading && (
                 <Image
