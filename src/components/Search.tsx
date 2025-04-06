@@ -29,7 +29,7 @@ function Search() {
       }
       const files = await getFiles({ types: [], searchText: debouncedQuery });
       if (files) {
-        setResult(files?.documents);
+        setResult(files?.ownFiles);
         setIsOpen(true);
       }
     };
