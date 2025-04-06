@@ -1,4 +1,4 @@
-import { Folder, LayoutDashboard, Share2, Trash2 } from "lucide-react";
+import { Folder, LayoutDashboard, Share2 } from "lucide-react";
 
 export const sidebarData = {
   user: {
@@ -52,11 +52,6 @@ export const sidebarData = {
       title: "Shared with me",
       url: "/cloud/files?type=shared%20with%20me",
       icon: Share2,
-    },
-    {
-      title: "Trash",
-      url: "/cloud/trash",
-      icon: Trash2,
     },
   ],
 };
