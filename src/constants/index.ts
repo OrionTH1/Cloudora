@@ -1,4 +1,13 @@
-import { Folder, LayoutDashboard, Share2 } from "lucide-react";
+import {
+  BadgeCheck,
+  BadgePercent,
+  CreditCard,
+  Folder,
+  LayoutDashboard,
+  LogOut,
+  Settings,
+  Share2,
+} from "lucide-react";
 
 export const sidebarData = {
   navMain: [
@@ -46,6 +55,33 @@ export const sidebarData = {
       title: "Shared with me",
       url: "/cloud/files?type=shared%20with%20me",
       icon: Share2,
+    },
+  ],
+  userMain: [
+    {
+      title: "Change your Plan",
+      url: "/order?name=",
+      icon: BadgePercent,
+    },
+    {
+      title: "Account",
+      url: "/cloud/settings#user-settings",
+      icon: BadgeCheck,
+    },
+    {
+      title: "Billing",
+      url: "",
+      icon: CreditCard,
+    },
+    {
+      title: "Settings",
+      url: "/cloud/settings",
+      icon: Settings,
+    },
+    {
+      title: "Log out",
+      url: "",
+      icon: LogOut,
     },
   ],
 };
