@@ -85,6 +85,7 @@ declare interface SpaceUsedFile {
 
 declare type PlansTypes = "free" | "basic" | "pro";
 declare type PlansNames = "Free" | "Basic" | "Pro";
+declare type PlansFeatures = "share_files" | "upload_files";
 declare interface PricingFeatures {
   title: string;
   avaiable: boolean;

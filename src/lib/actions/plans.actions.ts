@@ -1,6 +1,6 @@
 "use server";
 
-import { Query } from "node-appwrite";
+import { Models, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import {
   DATABASE_ID,
@@ -66,4 +66,12 @@ export const getPlanById = async (planId: string) => {
     handleError(error, "Failed to get user plan");
     return null;
   }
+};
+
+export const isPlanHasFeature = async (
+  plan: Models.Document,
+  feature: PlansFeatures
+) => {
+  const features = plan.features;
+  return features.includes(feature);
 };
