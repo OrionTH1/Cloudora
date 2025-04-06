@@ -87,7 +87,8 @@ function AuthForm({ type }: { type: FormType }) {
     clearErrors();
 
     try {
-      const OAuthURL = await createOAuthAccount();
+      const url = window.location.origin
+      const OAuthURL = await createOAuthAccount(url);
 
       if (OAuthURL) {
         router.push(OAuthURL);

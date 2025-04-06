@@ -99,14 +99,14 @@ export const createAccountIfNotExists = async (
   return existingUser;
 };
 
-export const createOAuthAccount = async () => {
+export const createOAuthAccount = async (path: string) => {
   try {
     const { account } = await createAdminClient();
 
     const OAuthURL = account.createOAuth2Token(
       OAuthProvider.Google,
-      "http://localhost:3000/oauth",
-      "http://localhost:3000/sign-in"
+      `${path}/oauth`,
+      `${path}/sign-in`
     );
 
     return OAuthURL;
