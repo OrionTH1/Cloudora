@@ -70,7 +70,7 @@ export const sidebarData = {
     },
     {
       title: "Billing",
-      url: "",
+      url: "/cloud/settings#user-billing",
       icon: CreditCard,
     },
     {
