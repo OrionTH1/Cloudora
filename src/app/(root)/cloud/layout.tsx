@@ -29,6 +29,7 @@ async function Layout({ children }: { children: React.ReactNode }) {
             fullName={currentUser.fullName}
             accountId={currentUser.accountId}
             userId={currentUser.$id}
+            maxStorageSize={userPlan.maxStorageSize}
           />
           <Header
             accountId={currentUser.accountId}

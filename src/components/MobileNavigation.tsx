@@ -21,6 +21,7 @@ interface MobileNavigationProps {
   avatar: string;
   accountId: string;
   userId: string;
+  maxStorageSize: number;
 }
 
 function MobileNavigation({
@@ -29,6 +30,7 @@ function MobileNavigation({
   fullName,
   accountId,
   userId,
+  maxStorageSize,
 }: MobileNavigationProps) {
   const [open, setOpen] = useState(false);
   return (
@@ -96,7 +98,11 @@ function MobileNavigation({
 
             <Separator className="my-5 bg-light-200/20" />
             <div className="flex flex-col justify-between gap-5">
-              <FileUploader accountId={accountId} ownerId={userId} />
+              <FileUploader
+                accountId={accountId}
+                ownerId={userId}
+                maxStorageSize={maxStorageSize}
+              />
 
               <Button
                 type="submit"
