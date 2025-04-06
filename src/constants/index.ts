@@ -1,12 +1,6 @@
 import { Folder, LayoutDashboard, Share2 } from "lucide-react";
 
 export const sidebarData = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-
   navMain: [
     {
       title: "Dashboard",
