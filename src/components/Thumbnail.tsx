@@ -1,5 +1,5 @@
 import { cn, getFileIcon } from "@/lib/utils";
-import { GitCompareArrows, Share, Waypoints } from "lucide-react";
+import { Waypoints } from "lucide-react";
 import Image from "next/image";
 
 interface ThumbnailProps {

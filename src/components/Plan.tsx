@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { Check, X } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
 
 function Plan({
   plan,
