@@ -3,14 +3,17 @@ import FileCardSkeleton from "@/components/skeletons/FileCardSkeleton";
 import Sort from "@/components/Sort";
 import TotalSpaceUsed from "@/components/TotalSpaceUsed";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getCurrentUser } from "@/lib/actions/user.actions";
 import { getFileTypesParams } from "@/lib/utils";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 async function Page({ searchParams }: SearchParamProps) {
   const type = ((await searchParams)?.type as string) || "";
   const searchText = ((await searchParams)?.query as string) || "";
   const sort = ((await searchParams)?.sort as string) || "";
-  console.log(type);
+  const user = await getCurrentUser();
+  if (!user) redirect("sign-up");
 
   const types = getFileTypesParams(type) as FileType[];
   return (
@@ -46,7 +49,13 @@ async function Page({ searchParams }: SearchParamProps) {
             </ul>
           }
         >
-          <FilesList searchText={searchText} sort={sort} types={types} isShared={type === "shared with me"}/>
+          <FilesList
+            searchText={searchText}
+            sort={sort}
+            types={types}
+            isShared={type === "shared with me"}
+            user={user}
+          />
         </Suspense>
       </section>
     </div>

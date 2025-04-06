@@ -7,11 +7,13 @@ async function FilesList({
   sort,
   types,
   isShared,
+  user
 }: {
   types: FileType[];
   sort: string;
   searchText: string;
   isShared: boolean;
+  user: Models.Document
 }) {
   const files = await getFiles({ types, sort, searchText });
 
@@ -22,7 +24,7 @@ async function FilesList({
           <ul className="file-list">
             {files.filesSharedWithMe.map((file: Models.Document) => (
               <li key={file.$id}>
-                <FileCard file={file} isShared={isShared} />
+                <FileCard file={file} isShared={isShared} user={user} />
               </li>
             ))}
           </ul>
@@ -33,7 +35,7 @@ async function FilesList({
         <ul className="file-list">
           {files.ownFiles.map((file: Models.Document) => (
             <li key={file.$id}>
-              <FileCard file={file} isShared={isShared}/>
+              <FileCard file={file} isShared={isShared} user={user} />
             </li>
           ))}
         </ul>

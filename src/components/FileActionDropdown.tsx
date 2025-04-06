@@ -32,7 +32,13 @@ import { usePathname } from "next/navigation";
 import FileShareInput, { FileDetails } from "./FileActionsModalContent";
 import { toast } from "sonner";
 
-function FileActionDropdown({ file }: { file: Models.Document }) {
+function FileActionDropdown({
+  file,
+  user,
+}: {
+  file: Models.Document;
+  user: Models.Document;
+}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [IsModalOpen, setIsModalOpen] = useState(true);
   const [action, setAction] = useState<ActionType | null>(null);
@@ -230,48 +236,93 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
             {file.name}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {actionsDropdownItems.map((action) => (
-            <DropdownMenuItem
-              key={action.value}
-              className="shad-dropdown-item"
-              onClick={() => {
-                setAction(action);
-                if (
-                  ["rename", "share", "delete", "details"].includes(
-                    action.value
-                  )
-                ) {
-                  setIsModalOpen(true);
-                }
-              }}
-            >
-              {action.value === "download" ? (
-                <Link
-                  href={constructDownloadUrl(file.bucketFileId)}
-                  download={file.name}
-                  className="flex items-center gap-2"
+          {actionsDropdownItems.map((action) =>
+            file.owner.$id !== user?.$id ? (
+              ["details", "download"].includes(action.value) && (
+                <DropdownMenuItem
+                  key={action.value}
+                  className="shad-dropdown-item"
+                  onClick={() => {
+                    setAction(action);
+                    if (
+                      ["rename", "share", "delete", "details"].includes(
+                        action.value
+                      )
+                    ) {
+                      setIsModalOpen(true);
+                    }
+                  }}
                 >
-                  <Image
-                    src={action.icon}
-                    alt={`${action.label} action icon`}
-                    width={30}
-                    height={30}
-                  />
-                  {action.label}
-                </Link>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={action.icon}
-                    alt={`${action.label} action icon`}
-                    width={30}
-                    height={30}
-                  />
-                  {action.label}
-                </div>
-              )}
-            </DropdownMenuItem>
-          ))}
+                  {action.value === "download" ? (
+                    <Link
+                      href={constructDownloadUrl(file.bucketFileId)}
+                      download={file.name}
+                      className="flex items-center gap-2"
+                    >
+                      <Image
+                        src={action.icon}
+                        alt={`${action.label} action icon`}
+                        width={30}
+                        height={30}
+                      />
+                      {action.label}
+                    </Link>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={action.icon}
+                        alt={`${action.label} action icon`}
+                        width={30}
+                        height={30}
+                      />
+                      {action.label}
+                    </div>
+                  )}
+                </DropdownMenuItem>
+              )
+            ) : (
+              <DropdownMenuItem
+                key={action.value}
+                className="shad-dropdown-item"
+                onClick={() => {
+                  setAction(action);
+                  if (
+                    ["rename", "share", "delete", "details"].includes(
+                      action.value
+                    )
+                  ) {
+                    setIsModalOpen(true);
+                  }
+                }}
+              >
+                {action.value === "download" ? (
+                  <Link
+                    href={constructDownloadUrl(file.bucketFileId)}
+                    download={file.name}
+                    className="flex items-center gap-2"
+                  >
+                    <Image
+                      src={action.icon}
+                      alt={`${action.label} action icon`}
+                      width={30}
+                      height={30}
+                    />
+                    {action.label}
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={action.icon}
+                      alt={`${action.label} action icon`}
+                      width={30}
+                      height={30}
+                    />
+                    {action.label}
+                  </div>
+                )}
+              </DropdownMenuItem>
+            )
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 

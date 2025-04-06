@@ -18,6 +18,8 @@ export default async function Home() {
     getCurrentUser(),
   ]);
 
+  console.log(currentUser);
+
   if (!currentUser) redirect("/sign-up");
   const userPlan = await getPlanById(currentUser.plans?.$id);
   if (!userPlan) return redirect(`/order?name=${currentUser.fullName}`);
@@ -95,7 +97,7 @@ export default async function Home() {
                         className="caption"
                       />
                     </div>
-                    <FileActionDropdown file={file} />
+                    <FileActionDropdown file={file} user={currentUser} />
                   </div>
                 </Link>
               </li>

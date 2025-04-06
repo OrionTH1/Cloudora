@@ -7,9 +7,10 @@ import FileActionDropdown from "./FileActionDropdown";
 
 interface FileCardProps {
   file: Models.Document;
+  user: Models.Document
   isShared: boolean;
 }
-function FileCard({ file, isShared }: FileCardProps) {
+function FileCard({ file,user, isShared }: FileCardProps) {
   return (
     <Link href={file.url} target="_blank" className="file-card cursor-pointer">
       <div className="flex justify-between">
@@ -22,7 +23,7 @@ function FileCard({ file, isShared }: FileCardProps) {
           isShared={isShared}
         />
         <div className="flex flex-col items-end justify-between">
-          <FileActionDropdown file={file} />
+          <FileActionDropdown file={file} user={user}/>
           <p className="body-1 "> {convertFileSize(file.size)}</p>
         </div>
       </div>
