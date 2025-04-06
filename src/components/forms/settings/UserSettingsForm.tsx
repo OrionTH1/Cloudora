@@ -139,7 +139,7 @@ function ProfileSettingsForm({ user }: { user: Models.Document }) {
     <>
       <Form {...form}>
         <form
-          className="relative flex w-[420px] flex-col gap-6"
+          className="relative flex  flex-col gap-6 md:w-[420px]"
           onSubmit={form.handleSubmit(handleFormSubmit)}
         >
           <FormField
