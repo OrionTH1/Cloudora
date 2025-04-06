@@ -240,12 +240,12 @@
 
   /* Root Layout */
   .main-content {
-    @apply remove-scrollbar h-full flex-1 overflow-auto  px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10 !important;
+    @apply remove-scrollbar h-full flex-1 overflow-auto px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10 !important;
   }
 
   /* Dashboard */
   .dashboard-container {
-    @apply mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10 !important;
+    @apply mx-auto grid max-w-7xl grid-cols-1 gap-6 lg:grid-cols-2 xl:gap-10 !important;
   }
   .dashboard-summary-list {
     @apply mt-6 grid grid-cols-2 gap-4 xl:mt-10 xl:grid-cols-2 xl:gap-9 !important;
@@ -260,7 +260,7 @@
     @apply h4 relative z-20 w-full text-right !important;
   }
   .summary-type-title {
-    @apply h4 relative z-20 text-center !important;
+    @apply h5 md:h4 relative z-20 text-center !important;
   }
   .dashboard-recent-files {
     @apply h-full rounded-[20px] xl:h-[654px] custom-scrollbar overflow-auto bg-light-500 p-5 xl:p-7 !important;
@@ -380,7 +380,7 @@
     @apply primary-btn h-[52px] gap-2 px-10 !important;
   }
   .uploader-preview-list {
-    @apply fixed bottom-10 right-10 z-50 flex size-full h-fit max-w-[480px] flex-col gap-3 rounded-[20px] bg-white p-7 !important;
+    @apply fixed bottom-10 right-10 z-50 flex size-full h-fit max-w-[280px] md:max-w-[480px] flex-col gap-3 rounded-[20px] bg-white p-7 !important;
   }
   .uploader-preview-item {
     @apply flex items-center justify-between  gap-3 rounded-xl p-3 !important;
@@ -411,12 +411,6 @@
   .mobile-header {
     @apply flex h-[60px] justify-between px-5 md:hidden !important;
   }
-  .header-user {
-    @apply my-3 flex items-center gap-2 rounded-full p-1 text-light-100 sm:justify-center sm:bg-brand/10 lg:justify-start lg:p-3 !important;
-  }
-  .header-user-avatar {
-    @apply aspect-square w-10 rounded-full object-cover !important;
-  }
   .mobile-nav {
     @apply h5 flex-1 gap-1 text-brand !important;
   }
@@ -424,7 +418,7 @@
     @apply flex flex-1 flex-col gap-4 !important;
   }
   .mobile-nav-item {
-    @apply flex text-light-100 gap-4 w-full justify-start items-center h5 px-6 h-[52px] rounded-full !important;
+    @apply flex text-light-100 hover:shad-active rounded gap-4 w-full justify-start items-center h5 px-6 h-[52px] bg-white shadow-none !important;
   }
   .mobile-sign-out-button {
     @apply h5 flex h-[52px] w-full items-center gap-4 rounded-full bg-brand/10 px-6 text-brand shadow-none transition-all hover:bg-brand/20 !important;

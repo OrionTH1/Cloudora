@@ -28,7 +28,7 @@ import {
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
 import SidebarUser from "./SidebarUser";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { sidebarData } from "@/constants";
 
 interface SidebarProps {
@@ -40,6 +40,7 @@ interface SidebarProps {
 
 function Sidebar({ fullName, email, avatar, planType }: SidebarProps) {
   const type = useSearchParams().get("type");
+  const pathname = usePathname();
   const { open } = useSidebar();
 
   return (
@@ -92,9 +93,9 @@ function Sidebar({ fullName, email, avatar, planType }: SidebarProps) {
                                 type === subItem.type && "shad-active"
                               )}
                             >
-                              <a href={subItem.url}>
+                              <Link href={subItem.url}>
                                 <span>{subItem.title}</span>
-                              </a>
+                              </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -103,7 +104,10 @@ function Sidebar({ fullName, email, avatar, planType }: SidebarProps) {
                   </SidebarMenuItem>
                 </Collapsible>
               ) : (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={cn(pathname === item.url && "shad-active")}
+                >
                   <SidebarMenuButton tooltip={item.title} asChild>
                     <Link href={item.url}>
                       {item.icon && <item.icon />}
