@@ -147,6 +147,7 @@ export const princing: Pricing[] = [
     type: "free",
     monthlyPrice: 0,
     annuallyPrice: 0,
+    totalAnnuallPrice: 0,
     description: "A great option for test our application",
     features: [
       {
@@ -168,6 +169,7 @@ export const princing: Pricing[] = [
     type: "basic",
     monthlyPrice: 10,
     annuallyPrice: 5,
+    totalAnnuallPrice: 108,
     description: "A great option for common users",
     features: [
       {
@@ -189,6 +191,7 @@ export const princing: Pricing[] = [
     type: "pro",
     monthlyPrice: 20,
     annuallyPrice: 10,
+    totalAnnuallPrice: 216,
     description: "A awesome option for users with more needs",
     features: [
       {

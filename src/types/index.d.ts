@@ -93,6 +93,7 @@ declare interface PricingFeatures {
 declare interface Pricing {
   name: PlansNames;
   type: PlansTypes;
+  totalAnnuallPrice: number;
   annuallyPrice: number;
   monthlyPrice: number;
   description: string;

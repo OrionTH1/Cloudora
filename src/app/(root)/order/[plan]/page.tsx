@@ -1,17 +1,21 @@
 import PromoCodeForm from "@/components/forms/PromoCodeForm";
 import PurchaseForm from "@/components/forms/PurchaseForm";
 import { Separator } from "@/components/ui/separator";
+import { princing } from "@/constants";
 import { applyUserPlan } from "@/lib/actions/plans.actions";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 import { capitalize } from "@/lib/utils";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-async function Purchase({ params }: SearchParamProps) {
+async function Purchase({ params, searchParams }: SearchParamProps) {
   const currentUser = await getCurrentUser();
   if (!currentUser) return redirect("/sign-in");
 
   const planType = (await params).plan as string;
+  const isBillingAnnualy = (await searchParams)?.isBillingAnnualy as string;
+  const plan = princing.find((value) => value.type === planType);
+  if (!plan) redirect(`/order?name=${currentUser.fullName}`);
 
   if (planType === "free") {
     const userUpdated = await applyUserPlan(currentUser.$id, planType);
@@ -45,14 +49,27 @@ async function Purchase({ params }: SearchParamProps) {
         <Separator />
         <div className="flex items-center justify-between">
           <p>Cloudora - {capitalize(planType)} Plan</p>
-          <p>
-            $5<span className="text-white/20">/month</span>
-          </p>
+          {isBillingAnnualy ? (
+            <p>
+              <span className="line-through">${plan.totalAnnuallPrice}</span> -
+              ${plan.annuallyPrice}
+              <span className="text-white/20">/annualy</span>
+            </p>
+          ) : (
+            <p>
+              ${plan.monthlyPrice}
+              <span className="text-white/20">/month</span>
+            </p>
+          )}
         </div>
         <Separator />
         <div className="flex justify-between text-xl font-semibold">
           <h2>Total</h2>
-          <p>$5</p>
+          {isBillingAnnualy ? (
+            <p>${plan.totalAnnuallPrice}</p>
+          ) : (
+            <p>${plan.monthlyPrice}</p>
+          )}
         </div>
       </aside>
     </div>
