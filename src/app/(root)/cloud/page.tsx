@@ -74,8 +74,8 @@ export default async function Home() {
       <section className="dashboard-recent-files">
         <h2 className="h3 xl:h2 text-light-100">Recent Files uploaded</h2>
         <ul className="mt-5 flex flex-col gap-5">
-          {files && files.total > 0 ? (
-            files.documents.map((file) => (
+          {files?.ownFiles ? (
+            files.ownFiles.map((file) => (
               <li key={file.$id}>
                 <Link
                   href={file.url}
