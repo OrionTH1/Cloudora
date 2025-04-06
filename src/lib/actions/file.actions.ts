@@ -9,7 +9,9 @@ import {
 } from "../appwrite/config";
 import { ID, Models, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
-import { getCurrentUser } from "./user.actions";
+import { getCurrentUser, getUserByEmail } from "./user.actions";
+import { redirect } from "next/navigation";
+import { isPlanHasFeature } from "./plans.actions";
 
 export const uploadFiles = async (
   file: File,
@@ -120,7 +122,19 @@ export const getFiles = async ({
       queries
     );
 
-    return files;
+    const ownFiles = [];
+    const filesSharedWithMe = [];
+    for (const file of files.documents) {
+      if (file.users.includes(currentUser.email)) {
+        filesSharedWithMe.push(file);
+        continue;
+      }
+      ownFiles.push(file);
+    }
+
+    console.log();
+
+    return { ownFiles, filesSharedWithMe };
   } catch (error) {
     handleError(error, "Failed to get files");
   }
@@ -145,7 +159,7 @@ export const renameFile = async (
 
     revalidatePath(path);
 
-    return updatedFile;
+    return { error: null, response: updatedFile };
   } catch (error) {
     handleError(error, "Failed to rename file");
   }
@@ -156,21 +170,42 @@ export const shareFileToUsers = async (
   emails: string[],
   path: string
 ) => {
-  const { database } = await createAdminClient();
-
   try {
+    const { database } = await createAdminClient();
+    const user = await getCurrentUser();
+    if (!user) redirect("sign-up");
+
+    const hasShareFeature = await isPlanHasFeature(user.plans, "share_files");
+    console.log(hasShareFeature);
+
+    if (!hasShareFeature) {
+      return { error: "does_not_has_feature", response: null };
+    }
+
+    const usersToShare = [];
+    for (const email of emails) {
+      const user = await getUserByEmail(email);
+      if (!user) {
+        return { error: "email_does_not_exits", response: email };
+      }
+
+      usersToShare.push(user.email);
+    }
+
+    console.log(usersToShare);
+
     const updatedFile = await database.updateDocument(
       DATABASE_ID!,
       FILES_COLLECTION_ID!,
       fileId,
-      { users: emails }
+      { users: usersToShare }
     );
 
     revalidatePath(path);
 
-    return updatedFile;
+    return { error: null, response: updatedFile };
   } catch (error) {
-    handleError(error, "Failed to rename file");
+    handleError(error, "Failed to share file");
   }
 };
 
@@ -187,7 +222,7 @@ export const deleteFile = async (
     await storage.deleteFile(BUCKET_ID!, bucketFileId);
 
     revalidatePath(path);
-    return { success: true };
+    return { error: null, response: true };
   } catch (error) {
     handleError(error, "Failed to rename file");
   }
@@ -248,7 +283,7 @@ export const getTotalSpaceUsed = async () => {
       total: 0,
     } as SpaceUsedObject;
 
-    for (const file of files?.documents) {
+    for (const file of files?.ownFiles) {
       const fileType = getFileType(file.name).type;
 
       switch (fileType) {

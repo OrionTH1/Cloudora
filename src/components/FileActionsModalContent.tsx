@@ -1,12 +1,14 @@
+"use client";
 import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
 import FormattedDataTime from "./FormattedDataTime";
 import { convertFileSize, formatDateTime } from "@/lib/utils";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { getUserByEmail } from "@/lib/actions/user.actions";
 function ImageThumnail({ file }: { file: Models.Document }) {
   return (
     <div className="file-details-thumbnail">
@@ -54,6 +56,25 @@ function FileShareInput({
   onInputChange,
   onRemove,
 }: FileShareInputProps) {
+  const [usersShared, setUsersShared] = useState<
+    { email: string; avatar: string }[]
+  >([]);
+  useEffect(() => {
+    const getUsersShared = async () => {
+      for (const userEmail of file.users) {
+        const user = await getUserByEmail(userEmail);
+        if (user) {
+          setUsersShared((prev) => [
+            ...prev,
+            { email: user.email, avatar: user.avatar },
+          ]);
+        }
+      }
+    };
+
+    getUsersShared();
+  }, [file.users]);
+
   return (
     <div>
       <ImageThumnail file={file} />
@@ -74,19 +95,28 @@ function FileShareInput({
           </div>
         </div>
         <ul className="pt-2 ">
-          {file.users.map((userEmail: string) => (
+          {usersShared.map((user) => (
             <li
-              key={userEmail}
+              key={user.email}
               className="flex items-center justify-between gap-2"
             >
-              <p className="subtitle-2">{userEmail}</p>
+              <div className="flex gap-2">
+                <Image
+                  src={user.avatar}
+                  width={24}
+                  height={24}
+                  alt="User avatar"
+                  className="size-6 rounded-full"
+                />
+                <p className="subtitle-2">{user.email}</p>
+              </div>
               <Button
                 type="button"
-                onClick={() => onRemove(userEmail)}
+                onClick={() => onRemove(user.email)}
                 className="share-remove-user"
               >
                 <Image
-                  src="assets/icons/remove.svg"
+                  src="/assets/icons/remove.svg"
                   alt="remove icon"
                   width={24}
                   height={24}

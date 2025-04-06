@@ -390,10 +390,10 @@
   }
 
   .error-toast {
-    @apply bg-red !rounded-[10px] !important;
+    @apply bg-red !rounded-[10px] border-none !important;
   }
   .success-toast {
-    @apply bg-green !rounded-[10px] !important;
+    @apply bg-green !rounded-[10px] border-none !important;
   }
 
   /* Header */
@@ -467,10 +467,10 @@
 
   /* Thumbnail */
   .thumbnail {
-    @apply flex-center size-[50px] min-w-[50px] overflow-hidden rounded-full bg-light-400;
+    @apply relative flex-center size-[50px] min-w-[50px] rounded-full bg-light-400;
   }
   .thumbnail-image {
-    @apply size-full object-cover object-center !important;
+    @apply size-full object-cover object-center rounded-full !important;
   }
 }
 

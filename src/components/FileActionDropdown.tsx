@@ -62,10 +62,11 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
 
       const success = await actions[action.value as keyof typeof actions]();
 
-      if (success) {
-        closeAllModels();
+      console.log(success);
 
-        toast("", {
+      if (!success?.error) {
+        // closeAllModels();
+        return toast("", {
           description() {
             return (
               <p className="body-2 text-white">
@@ -78,7 +79,67 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
           className: "success-toast",
         });
       }
-    } catch (error) {
+
+      if (success.error === "email_does_not_exits") {
+        console.log("Email nao existe");
+
+        return toast("", {
+          description() {
+            return (
+              <p className="body-2 text-white">
+                The <span className="font-semibold">{success.response}</span>{" "}
+                email doesn&apos;t exists
+              </p>
+            );
+          },
+
+          className: "error-toast",
+        });
+      }
+
+      if (success.error === "does_not_has_feature") {
+        return toast("", {
+          description() {
+            return (
+              <p className="body-2 text-white">
+                Your <span className="font-semibold">current plan</span>{" "}
+                <span className="font-semibold">
+                  doesn&apos;t allow file sharing.
+                </span>{" "}
+                Please <span className="font-semibold">upgrade</span> to a
+                higher plan to access this feature.
+              </p>
+            );
+          },
+
+          className: "error-toast",
+        });
+      }
+
+      toast("", {
+        description() {
+          return (
+            <p className="body-2 text-white">
+              Something went wrong, please try again.
+            </p>
+          );
+        },
+
+        className: "error-toast",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast("", {
+        description() {
+          return (
+            <p className="body-2 text-white">
+              Something went wrong, please try again.
+            </p>
+          );
+        },
+
+        className: "error-toast",
+      });
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -87,6 +148,7 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
 
   const handleRemoveUser = async (email: string) => {
     const updatedEmails = emails.filter((e) => e !== email);
+
     const success = await shareFileToUsers(file.$id, updatedEmails, pathname);
 
     if (success) setEmails(updatedEmails);
@@ -120,7 +182,7 @@ function FileActionDropdown({ file }: { file: Models.Document }) {
           )}
           {value === "delete" && (
             <p className="delete-confirmation">
-              Are you sure you want to deleete{" "}
+              Are you sure you want to delete{" "}
               <span className="delete-file-name">{file.name}</span>?
             </p>
           )}

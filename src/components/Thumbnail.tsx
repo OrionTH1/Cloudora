@@ -1,9 +1,11 @@
 import { cn, getFileIcon } from "@/lib/utils";
+import { GitCompareArrows, Share, Waypoints } from "lucide-react";
 import Image from "next/image";
 
 interface ThumbnailProps {
   type: string;
   extension: string;
+  isShared?: boolean;
   url?: string;
   imageClassName?: string;
   className?: string;
@@ -11,6 +13,7 @@ interface ThumbnailProps {
 function Thumbnail({
   extension,
   type,
+  isShared,
   url = "",
   className,
   imageClassName,
@@ -29,6 +32,13 @@ function Thumbnail({
           isImage && "thumbnail-image"
         )}
       />
+      {isShared && (
+        <Waypoints
+          color="#FFFFFF"
+          size={32}
+          className="absolute bottom-[-2px] right-[-2px] rounded-full bg-light-100 p-2"
+        />
+      )}
     </figure>
   );
 }

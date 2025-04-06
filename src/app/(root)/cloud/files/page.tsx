@@ -10,6 +10,7 @@ async function Page({ searchParams }: SearchParamProps) {
   const type = ((await searchParams)?.type as string) || "";
   const searchText = ((await searchParams)?.query as string) || "";
   const sort = ((await searchParams)?.sort as string) || "";
+  console.log(type);
 
   const types = getFileTypesParams(type) as FileType[];
   return (
@@ -45,7 +46,7 @@ async function Page({ searchParams }: SearchParamProps) {
             </ul>
           }
         >
-          <FilesList searchText={searchText} sort={sort} types={types} />
+          <FilesList searchText={searchText} sort={sort} types={types} isShared={type === "shared with me"}/>
         </Suspense>
       </section>
     </div>

@@ -50,7 +50,7 @@ export const sidebarData = {
     },
     {
       title: "Shared with me",
-      url: "/cloud/files/shared",
+      url: "/cloud/files?type=shared%20with%20me",
       icon: Share2,
     },
     {
