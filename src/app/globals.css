@@ -380,7 +380,7 @@
     @apply primary-btn h-[52px] gap-2 px-10 !important;
   }
   .uploader-preview-list {
-    @apply fixed bottom-10 right-10 z-50 flex size-full h-fit max-w-[280px] md:max-w-[480px] flex-col gap-3 rounded-[20px] bg-white p-7 !important;
+    @apply fixed bottom-10 right-10 z-50 flex size-full h-fit max-w-[280px] md:max-w-[480px] max-h-80 overflow-y-scroll flex-col gap-3 rounded-[20px] bg-white p-7 !important;
   }
   .uploader-preview-item {
     @apply flex items-center justify-between  gap-3 rounded-xl p-3 !important;
