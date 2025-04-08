@@ -7,13 +7,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { sortTypes } from "@/constants";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function Sort() {
   const path = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const handleSort = (value: string) => {
-    router.push(`${path}?sort=${value}`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", value);
+    router.push(`${path}?${params.toString()}`);
   };
   return (
     <Select onValueChange={handleSort} defaultValue={sortTypes[0].value}>
