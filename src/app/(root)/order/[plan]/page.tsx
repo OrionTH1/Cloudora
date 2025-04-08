@@ -49,18 +49,17 @@ async function Purchase({ params, searchParams }: SearchParamProps) {
         <Separator />
         <div className="flex items-center justify-between">
           <p>Cloudora - {capitalize(planType)} Plan</p>
-          {isBillingAnnualy ? (
-            <p>
-              <span className="line-through">${plan.totalAnnuallPrice}</span> -
-              ${plan.annuallyPrice}
-              <span className="text-white/20">/annualy</span>
-            </p>
-          ) : (
-            <p>
-              ${plan.monthlyPrice}
-              <span className="text-white/20">/month</span>
-            </p>
-          )}
+          <p>
+            {isBillingAnnualy ? (
+              <span>
+                <span className="line-through">${plan.totalAnnuallPrice}</span>{" "}
+                -{plan.annuallyPrice}
+              </span>
+            ) : (
+              plan.monthlyPrice
+            )}
+            <span className="text-white/20">/monthly</span>
+          </p>
         </div>
         <Separator />
         <div className="flex justify-between text-xl font-semibold">
