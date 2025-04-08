@@ -74,7 +74,7 @@ Each user can structure their files efficiently and benefit from a clear separat
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Create the plan and benefits.
+- [ ] Create billing settings section
 
 
 ## Contact
