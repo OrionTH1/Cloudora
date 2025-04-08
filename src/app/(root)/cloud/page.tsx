@@ -60,7 +60,7 @@ export default async function Home() {
                       <p className="text-center text-light-200">Last update</p>
                       <FormattedDataTime
                         date={new Date(
-                          usedStorageSpace.documents.date
+                          usedStorageSpace.document.date
                         ).toString()}
                         className="text-center text-light-100"
                       />

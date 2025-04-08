@@ -247,14 +247,14 @@ export const getTotalSpaceUsed = async () => {
     if (!files) throw new Error("Files not found");
 
     const spaceUsed = {
-      images: {
+      image: {
         url: "/cloud/files?type=images",
         icon: "/assets/icons/file-image-light.svg",
         date: 0,
         size: 0,
         title: "Images",
       },
-      documents: {
+      document: {
         url: "/cloud/files?type=documents",
         icon: "/assets/icons/file-document-light.svg",
         date: 0,
@@ -268,7 +268,7 @@ export const getTotalSpaceUsed = async () => {
         size: 0,
         title: "Video, Audio",
       },
-      others: {
+      other: {
         url: "/cloud/files?type=other",
         icon: "/assets/icons/file-other-light.svg",
         date: 0,
@@ -283,11 +283,11 @@ export const getTotalSpaceUsed = async () => {
 
       switch (fileType) {
         case "document":
-          updateSpaceUsedFile(file, spaceUsed.documents);
+          updateSpaceUsedFile(file, spaceUsed.document);
           spaceUsed.total += file.size;
           break;
         case "image":
-          updateSpaceUsedFile(file, spaceUsed.images);
+          updateSpaceUsedFile(file, spaceUsed.image);
           spaceUsed.total += file.size;
           break;
         case "video":
@@ -296,7 +296,7 @@ export const getTotalSpaceUsed = async () => {
           spaceUsed.total += file.size;
           break;
         default:
-          updateSpaceUsedFile(file, spaceUsed.others);
+          updateSpaceUsedFile(file, spaceUsed.other);
           spaceUsed.total += file.size;
           break;
       }

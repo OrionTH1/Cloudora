@@ -24,7 +24,7 @@ async function Page({ searchParams }: SearchParamProps) {
           <div className="body-1 flex items-center gap-1">
             <p>Total:</p>
             <Suspense fallback={<Skeleton className="h-4 w-12" />}>
-              <TotalSpaceUsed />
+              <TotalSpaceUsed type={types[0]} />
             </Suspense>
           </div>
 

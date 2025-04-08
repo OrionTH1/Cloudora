@@ -68,10 +68,10 @@ declare interface ShareInputProps {
 }
 
 declare interface SpaceUsedObject {
-  images: SpaceUsedFile;
-  documents: SpaceUsedFile;
+  image: SpaceUsedFile;
+  document: SpaceUsedFile;
   media: SpaceUsedFile;
-  others: SpaceUsedFile;
+  other: SpaceUsedFile;
   total: number;
 }
 
