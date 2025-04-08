@@ -34,40 +34,42 @@ export default async function Home() {
           {usedStorageSpace &&
             Object.entries(usedStorageSpace).map(([key, value]) => {
               if (key === "total") return;
-              return (
-                <Link
-                  key={key}
-                  href={value.url}
-                  className="dashboard-summary-card"
-                >
-                  <div className="space-y-4">
-                    <div className="flex justify-between gap-3">
-                      <Image
-                        src={value.icon}
-                        width={100}
-                        height={100}
-                        alt="uploaded image"
-                        className="summary-type-icon"
-                      />
-                      <h4 className="summary-type-size">
-                        {convertFileSize(value.size)}
-                      </h4>
-                    </div>
+              if (["image", "document", "media", "other"].includes(key)) {
+                return (
+                  <Link
+                    key={key}
+                    href={value.url}
+                    className="dashboard-summary-card"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex justify-between gap-3">
+                        <Image
+                          src={value.icon}
+                          width={100}
+                          height={100}
+                          alt="uploaded image"
+                          className="summary-type-icon"
+                        />
+                        <h4 className="summary-type-size">
+                          {convertFileSize(value.size)}
+                        </h4>
+                      </div>
 
-                    <h5 className="summary-type-title">{value.title}</h5>
-                    <Separator className="bg-light-400" />
-                    <div className="space-y-2">
-                      <p className="text-center text-light-200">Last update</p>
-                      <FormattedDataTime
-                        date={new Date(
-                          usedStorageSpace.document.date
-                        ).toString()}
-                        className="text-center text-light-100"
-                      />
+                      <h5 className="summary-type-title">{value.title}</h5>
+                      <Separator className="bg-light-400" />
+                      <div className="space-y-2">
+                        <p className="text-center text-light-200">
+                          Last update
+                        </p>
+                        <FormattedDataTime
+                          date={usedStorageSpace[key as SpaceUsedKeys].date}
+                          className="text-center text-light-100"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              );
+                  </Link>
+                );
+              }
             })}
         </ul>
       </section>

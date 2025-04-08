@@ -75,6 +75,8 @@ declare interface SpaceUsedObject {
   total: number;
 }
 
+declare type SpaceUsedKeys = "image" | "document" | "media" | "other";
+
 declare interface SpaceUsedFile {
   url: string;
   icon: string;
