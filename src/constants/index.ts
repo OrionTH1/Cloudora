@@ -151,7 +151,7 @@ export const princing: Pricing[] = [
     description: "A great option for test our application",
     features: [
       {
-        title: "50MB Storage",
+        title: "10MB Storage",
         avaiable: true,
       },
       {
