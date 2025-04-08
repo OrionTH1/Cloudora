@@ -18,8 +18,6 @@ export default async function Home() {
     getCurrentUser(),
   ]);
 
-  console.log(currentUser);
-
   if (!currentUser) redirect("/sign-up");
   const userPlan = await getPlanById(currentUser.plans?.$id);
   if (!userPlan) return redirect(`/order?name=${currentUser.fullName}`);

@@ -68,8 +68,6 @@ function FileActionDropdown({
 
       const success = await actions[action.value as keyof typeof actions]();
 
-      console.log(success);
-
       if (!success?.error) {
         // closeAllModels();
         return toast("", {
@@ -87,8 +85,6 @@ function FileActionDropdown({
       }
 
       if (success.error === "email_does_not_exits") {
-        console.log("Email nao existe");
-
         return toast("", {
           description() {
             return (

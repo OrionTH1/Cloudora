@@ -33,7 +33,6 @@ function FinishedPage() {
   useEffect(() => {
     if (secondsToRedirect === 0) redirect("/cloud");
 
-    console.log("test");
     const interval = setInterval(() => {
       setSecondsToRedirect((prev) => prev - 1);
     }, 1 * 1000);

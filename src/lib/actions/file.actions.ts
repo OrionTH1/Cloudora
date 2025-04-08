@@ -132,8 +132,6 @@ export const getFiles = async ({
       ownFiles.push(file);
     }
 
-    console.log();
-
     return { ownFiles, filesSharedWithMe };
   } catch (error) {
     handleError(error, "Failed to get files");
@@ -176,7 +174,6 @@ export const shareFileToUsers = async (
     if (!user) redirect("sign-up");
 
     const hasShareFeature = await isPlanHasFeature(user.plans, "share_files");
-    console.log(hasShareFeature);
 
     if (!hasShareFeature) {
       return { error: "does_not_has_feature", response: null };
@@ -191,8 +188,6 @@ export const shareFileToUsers = async (
 
       usersToShare.push(user.email);
     }
-
-    console.log(usersToShare);
 
     const updatedFile = await database.updateDocument(
       DATABASE_ID!,

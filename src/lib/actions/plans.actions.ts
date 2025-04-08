@@ -31,7 +31,7 @@ export const applyUserPlan = async (userId: string, planName: string) => {
 
     const plan = await getPlanByName(planName);
 
-    if (plan) {
+    if (plan && plan.total > 0) {
       const userUpdated = await database.updateDocument(
         DATABASE_ID!,
         USERS_COLLECTION_ID!,
