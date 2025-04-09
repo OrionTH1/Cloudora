@@ -215,26 +215,22 @@ export const updateUserEmail = async (
   accountId: string,
   path: string
 ) => {
-  try {
-    const existingUser = await getUserByEmail(newUserEmail);
-    if (existingUser) throw new Error("email_already_exists");
+  const existingUser = await getUserByEmail(newUserEmail);
+  if (existingUser) throw new Error("email_already_exists");
 
-    const { database, users } = await createAdminClient();
+  const { database, users } = await createAdminClient();
 
-    await users.updateEmail(accountId, newUserEmail);
+  await users.updateEmail(accountId, newUserEmail);
 
-    const userUpdated = await database.updateDocument(
-      DATABASE_ID!,
-      USERS_COLLECTION_ID!,
-      userId,
-      { email: newUserEmail }
-    );
+  const userUpdated = await database.updateDocument(
+    DATABASE_ID!,
+    USERS_COLLECTION_ID!,
+    userId,
+    { email: newUserEmail }
+  );
 
-    revalidatePath(path);
-    return userUpdated;
-  } catch (error) {
-    handleError(error, "Failed to update user email");
-  }
+  revalidatePath(path);
+  return userUpdated;
 };
 
 export const getCurrentUser = async () => {
