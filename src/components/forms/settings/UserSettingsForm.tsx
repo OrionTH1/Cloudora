@@ -20,7 +20,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Models } from "node-appwrite";
 import { useState } from "react";
-import { useForm, UseFormSetError } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -78,11 +78,6 @@ const handleUpdateUserEmail = async (
   newUserEmail: string,
   accountId: string,
   userId: string,
-  setError: UseFormSetError<{
-    profilePic: File[];
-    profileName: string;
-    profileEmail: string;
-  }>,
   path: string
 ) => {
   try {
@@ -90,9 +85,17 @@ const handleUpdateUserEmail = async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.message === "email_already_exists") {
-      return setError("profileEmail", {
-        type: "validate",
-        message: "A user with this email already exists.",
+      return toast("", {
+        description() {
+          return (
+            <p className="body-2 text-white">
+              The <span className="font-semibold">{newUserEmail}</span> email
+              already exists
+            </p>
+          );
+        },
+
+        className: "error-toast",
       });
     }
   }
@@ -124,12 +127,10 @@ function ProfileSettingsForm({ user }: { user: Models.Document }) {
     }
 
     if (values.profileEmail !== user.email) {
-      form.clearErrors("profileEmail");
       await handleUpdateUserEmail(
         values.profileEmail,
         user.$id,
         user.accountId,
-        form.setError,
         path
       );
     }
