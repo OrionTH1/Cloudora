@@ -46,19 +46,20 @@ function FileUploader({
           });
         }
 
-        return uploadFiles(file, ownerId, accountId, maxStorageSize, path)
-          .then((uploadedFile) => {
-            if (uploadedFile) {
-              setFiles((prev) =>
-                prev.filter((prevFile) => prevFile.name !== uploadedFile.name)
+        return uploadFiles(file, ownerId, accountId, maxStorageSize, path).then(
+          (uploadedFile) => {
+            if (uploadedFile && !uploadedFile.response) {
+              return setFiles((prev) =>
+                prev.filter(
+                  (prevFile) => prevFile.name !== uploadedFile.response?.name
+                )
               );
             }
-          })
-          .catch((err) => {
-            setFiles((prev) =>
-              prev.filter((prevFile) => prevFile.name !== file.name)
-            );
-            if (err.message === "Storage limit exceeded.") {
+
+            if (
+              uploadedFile &&
+              uploadedFile.error === "storage_limit_exceeded"
+            ) {
               toast("", {
                 description() {
                   return (
@@ -72,7 +73,12 @@ function FileUploader({
                 className: "error-toast",
               });
             }
-          });
+
+            setFiles((prev) =>
+              prev.filter((prevFile) => prevFile.name !== file.name)
+            );
+          }
+        );
       });
 
       await Promise.all(uploadPromise);

@@ -81,10 +81,29 @@ const handleUpdateUserEmail = async (
   path: string
 ) => {
   try {
-    await updateUserEmail(newUserEmail, accountId, userId, path);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error.message === "email_already_exists") {
+    const updatedEmail = await updateUserEmail(
+      newUserEmail,
+      accountId,
+      userId,
+      path
+    );
+
+    if (updatedEmail && updatedEmail.response) {
+      return toast("", {
+        description() {
+          return (
+            <p className="body-2 text-white">
+              User info updated{" "}
+              <span className="font-semibold">successfully</span>
+            </p>
+          );
+        },
+
+        className: "success-toast",
+      });
+    }
+
+    if (updatedEmail && updatedEmail.error === "email_already_exists") {
       return toast("", {
         description() {
           return (
@@ -98,6 +117,8 @@ const handleUpdateUserEmail = async (
         className: "error-toast",
       });
     }
+  } catch (error) {
+    console.error(error);
   }
 };
 

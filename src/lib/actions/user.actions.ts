@@ -216,7 +216,7 @@ export const updateUserEmail = async (
   path: string
 ) => {
   const existingUser = await getUserByEmail(newUserEmail);
-  if (existingUser) throw new Error("email_already_exists");
+  if (existingUser) return { error: "email_already_exists", response: null };
 
   const { database, users } = await createAdminClient();
 
@@ -230,7 +230,7 @@ export const updateUserEmail = async (
   );
 
   revalidatePath(path);
-  return userUpdated;
+  return { error: null, response: userUpdated };
 };
 
 export const getCurrentUser = async () => {

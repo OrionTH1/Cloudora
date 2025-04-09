@@ -26,7 +26,7 @@ export const uploadFiles = async (
 
     if (totalStorageUsed) {
       if (totalStorageUsed.total + file.size > maxStorageSize) {
-        throw new Error("Storage limit exceeded.");
+        return { error: "storage_limit_exceeded", response: null };
       }
     }
 
@@ -64,7 +64,7 @@ export const uploadFiles = async (
       });
 
     revalidatePath(path);
-    return newFile;
+    return { error: null, response: newFile };
   } catch (error) {
     handleError(error, "failed to upload files");
   }
