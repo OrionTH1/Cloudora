@@ -48,7 +48,7 @@ function FileUploader({
 
         return uploadFiles(file, ownerId, accountId, maxStorageSize, path).then(
           (uploadedFile) => {
-            if (uploadedFile && !uploadedFile.response) {
+            if (uploadedFile && uploadedFile.response) {
               return setFiles((prev) =>
                 prev.filter(
                   (prevFile) => prevFile.name !== uploadedFile.response?.name
